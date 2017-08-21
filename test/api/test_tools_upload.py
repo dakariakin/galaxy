@@ -203,6 +203,39 @@ class ToolsUploadTestCase(api.ApiTestCase):
             roadmaps_content = self._get_roadmaps_content(history_id, dataset)
             assert roadmaps_content.strip() == "roadmaps\ncontent", roadmaps_content
 
+    def test_upload_composite_as_tar(self):
+        with self.dataset_populator.test_history() as history_id:
+            tar_path = self.test_data_resolver.get_filename("testdir.tar")
+            tar_f = open(tar_path, "rb")
+            payload = self.dataset_populator.upload_payload(history_id, "Test123",
+                extra_inputs={
+                    "files_1|file_data": tar_f,
+                    "files_1|NAME": "composite",
+                    "file_count": "2",
+                    "force_composite": "True",
+                }
+            )
+            run_response = self.dataset_populator.tools_post(payload)
+            self.dataset_populator.wait_for_tool_run(history_id, run_response)
+            dataset = run_response.json()["outputs"][0]
+            content = self.dataset_populator.get_history_dataset_content(history_id, dataset=dataset)
+            assert content.strip() == "Test123"
+            extra_files = self.dataset_populator.get_history_dataset_extra_files(history_id, dataset_id=dataset["id"])
+            assert len(extra_files) == 5
+            for extra_file in extra_files:
+                if extra_file["path"] == "testdir":
+                    assert extra_file["class"] == "Directory"
+                elif extra_file["path"] == "testdir/a":
+                    assert extra_file["class"] == "File"
+                elif extra_file["path"] == "testdir/c":
+                    assert extra_file["class"] == "Directory"
+                elif extra_file["path"] == "testdir/c/d":
+                    assert extra_file["class"] == "File"
+                elif extra_file["path"] == "testdir/b":
+                    assert extra_file["class"] == "File"
+                else:
+                    raise Exception("Unknown extra file entry encountered %s" % extra_file)
+
     def test_upload_dbkey(self):
         with self.dataset_populator.test_history() as history_id:
             payload = self.dataset_populator.upload_payload(history_id, "Test123", dbkey="hg19")
