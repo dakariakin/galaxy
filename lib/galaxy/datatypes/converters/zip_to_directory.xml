@@ -1,0 +1,15 @@
+<tool id="CONVERTER_zip_to_directory" name="Convert zip file to directory" version="1.0.0" profile="17.05">
+    <command>
+        mkdir '$output1.files_path';
+        cd '$output1.files_path';
+        unzip '$input1'
+    </command>
+    <inputs>
+        <param format="zip" name="input1" type="data"/>
+    </inputs>
+    <outputs>
+        <data format="directory" name="output1"/>
+    </outputs>
+    <help>
+    </help>
+</tool>
