@@ -426,7 +426,7 @@ class YamlLoaderTestCase(BaseLoaderTestCase):
 
 
 class GalaxyFlavoredCwlLoaderTestCase(BaseLoaderTestCase):
-    source_file_name = os.path.join(os.getcwd(), "test/functional/tools/galactic_cat.cwl")
+    source_file_name = os.path.join(os.getcwd(), "cwl_tools/galactic_flavored/galactic_cat.cwl")
     source_contents = None
 
     def test_parsing(self):
