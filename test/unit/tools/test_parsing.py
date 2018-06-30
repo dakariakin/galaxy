@@ -426,7 +426,7 @@ class YamlLoaderTestCase(BaseLoaderTestCase):
 
 
 class GalaxyFlavoredCwlLoaderTestCase(BaseLoaderTestCase):
-    source_file_name = os.path.join(os.getcwd(), "cwl_tools/galactic_flavored/galactic_cat.cwl")
+    source_file_name = os.path.join(os.getcwd(), "test/functional/tools/cwl_tools/galactic_flavored/record_input.cwl")
     source_contents = None
 
     def test_parsing(self):
@@ -444,7 +444,7 @@ class GalaxyFlavoredCwlLoaderTestCase(BaseLoaderTestCase):
 
     def test_id(self):
         tool_id = self._tool_source.parse_id()
-        assert tool_id == "galactic_cat", tool_id
+        assert tool_id == "galactic_record_input", tool_id
 
 
 class DataSourceLoaderTestCase(BaseLoaderTestCase):

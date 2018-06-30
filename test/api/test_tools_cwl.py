@@ -138,6 +138,24 @@ class CwlToolsTestCase(api.ApiTestCase):
             content = self.dataset_populator.get_history_dataset_content(history_id, dataset=dataset)
             assert content.strip() == "TestData123", content
 
+    def test_galactic_record_input(self):
+        with self.dataset_populator.test_history() as history_id:
+            hda1_id = self.dataset_populator.new_dataset(history_id, content="moo", name="test_dataset.txt")["id"]
+            hda2_id = self.dataset_populator.new_dataset(history_id, content="cow dog foo", name="test_dataset.txt")["id"]
+            self.dataset_populator.wait_for_history(history_id, assert_ok=True)
+            inputs = {
+                "input1": {"src": "hda", "id": hda1_id},
+                "input2": {"src": "hda", "id": hda2_id},
+            }
+            run_response = self._run("galactic_record_input", history_id, inputs, assert_ok=True)
+            dataset = run_response["outputs"][0]
+            content = self.dataset_populator.get_history_dataset_content(history_id, dataset=dataset)
+            assert content.strip() == "moo", content
+
+            dataset = run_response["outputs"][1]
+            content = self.dataset_populator.get_history_dataset_content(history_id, dataset=dataset)
+            assert content.strip() == "cow dog foo", content
+
     def _run_and_get_stdout(self, tool_id, history_id, inputs, **kwds):
         response = self._run(tool_id, history_id, inputs, **kwds)
         assert "jobs" in response
