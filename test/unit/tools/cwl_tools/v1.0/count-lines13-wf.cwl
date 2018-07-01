@@ -3,28 +3,18 @@ class: Workflow
 cwlVersion: v1.0
 
 inputs:
-  file1: File[]
+    file1: File[]
+    file2: File[]
 
 outputs:
-  count_output:
-    type: int[]
-    outputSource: step1/count_output
-
-requirements:
-  ScatterFeatureRequirement: {}
-  SubworkflowFeatureRequirement: {}
+    count_output:
+      type: int
+      outputSource: step1/output
 
 steps:
   step1:
-    in: {file1: file1}
-    out: [count_output]
-    scatter: file1
-    run:
-      class: Workflow
-      inputs:
-        file1: File
-      outputs:
-        count_output: {type: int, outputSource: step2/output}
-      steps:
-        step1: {run: wc-tool.cwl, in: {file1: file1}, out: [output]}
-        step2: {run: parseInt-tool.cwl, in: {file1: step1/output}, out: [output]}
+    run: wc3-tool.cwl
+    in:
+      file1:
+        source: [file1]
+    out: [output]
