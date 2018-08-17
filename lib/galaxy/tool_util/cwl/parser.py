@@ -20,6 +20,7 @@ from galaxy.exceptions import MessageException
 from galaxy.util import listify, safe_makedirs
 from galaxy.util.bunch import Bunch
 from .cwltool_deps import (
+    beta_relaxed_fmt_check,
     ensure_cwltool_available,
     pathmapper,
     process,
@@ -435,7 +436,7 @@ class JobProxy(object):
                 tmpdir=os.path.join(self._job_directory, "cwltmp"),
                 stagedir=os.path.join(self._job_directory, "cwlstagedir"),
                 use_container=False,
-                beta_relaxed_fmt_check=False,
+                beta_relaxed_fmt_check=beta_relaxed_fmt_check,
             )
 
             args = []
