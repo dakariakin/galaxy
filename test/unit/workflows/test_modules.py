@@ -166,25 +166,28 @@ steps:
     label: "input2"
   - type: "tool"
     tool_id: "cat1"
-    input_connections:
-    -  input_name: "input1"
-       "@output_step": 0
-       output_name: "output"
+    inputs:
+      input1:
+        connections:
+        - "@output_step": 0
+          output_name: "output"
   - type: "tool"
     tool_id: "cat1"
-    input_connections:
-    -  input_name: "input1"
-       "@output_step": 0
-       output_name: "output"
+    inputs:
+      input1:
+        connections:
+        - "@output_step": 0
+          output_name: "output"
     workflow_outputs:
     -   output_name: "out_file1"
         label: "out1"
   - type: "tool"
     tool_id: "cat1"
-    input_connections:
-    -  input_name: "input1"
-       "@output_step": 2
-       output_name: "out_file1"
+    inputs:
+      input1:
+        connections:
+        - "@output_step": 2
+          output_name: "out_file1"
     workflow_outputs:
     -   output_name: "out_file1"
 """
