@@ -1041,14 +1041,16 @@ class WorkflowContentsManager(UsesAnnotations):
                     continue
                 if not isinstance(conn_list, list):  # Older style singleton connection
                     conn_list = [conn_list]
+
                 for conn_dict in conn_list:
+                    step_input = step.get_or_add_input(input_name)
+
                     if 'output_name' not in conn_dict or 'id' not in conn_dict:
                         template = "Invalid connection [%s] - must be dict with output_name and id fields."
                         message = template % conn_dict
                         raise exceptions.MessageException(message)
                     conn = model.WorkflowStepConnection()
-                    conn.input_step = step
-                    conn.input_name = input_name
+                    conn.input_step_input = step_input
                     conn.output_name = conn_dict['output_name']
                     external_id = conn_dict['id']
                     if external_id not in steps_by_external_id:
