@@ -560,11 +560,13 @@ class DynamicTool(Dictifiable):
     dict_collection_visible_keys = ('id', 'tool_id', 'tool_format', 'tool_version', 'uuid', 'active', 'hidden')
     dict_element_visible_keys = ('id', 'tool_id', 'tool_format', 'tool_version', 'uuid', 'active', 'hidden')
 
-    def __init__(self, tool_format=None, tool_id=None, tool_version=None,
+    def __init__(self, tool_format=None, tool_id=None, tool_version=None, tool_path=None, tool_directory=None,
                  uuid=None, active=True, hidden=True, value=None):
         self.tool_format = tool_format
         self.tool_id = tool_id
         self.tool_version = tool_version
+        self.tool_path = tool_path
+        self.tool_directory = tool_directory
         self.active = active
         self.hidden = hidden
         self.value = value
@@ -963,6 +965,8 @@ class Job(JobLike, UsesCreateAndUpdateTime, Dictifiable, RepresentById):
             # System level details that only admins should have.
             rval['external_id'] = self.job_runner_external_id
             rval['command_line'] = self.command_line
+            #rval['cwl_command_state'] = self.cwl_command_state
+            #rval['cwl_command_state_version'] = self.cwl_command_state_version
 
         if view == 'element':
             param_dict = dict([(p.name, p.value) for p in self.parameters])
@@ -2359,6 +2363,16 @@ class DatasetInstance(object):
         """Detects whether there is any data"""
         return self.dataset.has_data()
 
+    def get_created_from_basename(self):
+        return self.dataset.created_from_basename
+
+    def set_created_from_basename(self, created_from_basename):
+        if self.dataset.created_from_basename is not None:
+            raise Exception("Underlying dataset already has a cwlfilename set.")
+        self.dataset.created_from_basename = created_from_basename
+
+    created_from_basename = property(get_created_from_basename, set_created_from_basename)
+
     def get_raw_data(self):
         """Returns the full data. To stream it open the file_name and read/write as needed"""
         return self.datatype.get_raw_data(self)
@@ -3472,6 +3486,10 @@ class DatasetCollection(Dictifiable, UsesAnnotations, RepresentById):
         return self._populated_optimized
 
     @property
+    def allow_implicit_mapping(self):
+        return self.collection_type != "record"
+
+    @property
     def populated(self):
         top_level_populated = self.populated_state == DatasetCollection.populated_states.OK
         if top_level_populated and self.has_subcollections:
@@ -4162,6 +4180,11 @@ class Workflow(Dictifiable, RepresentById):
 
 
 class WorkflowStep(RepresentById):
+    STEP_TYPE_TO_INPUT_TYPE = {
+        "data_input": "dataset",
+        "data_collection_input": "dataset_collection",
+        "parameter_input": "parameter",
+    }
 
     def __init__(self):
         self.id = None
@@ -4177,6 +4200,12 @@ class WorkflowStep(RepresentById):
         self.uuid = uuid4()
         self.workflow_outputs = []
         self._input_connections_by_name = None
+        self._inputs_by_name = None
+
+    @property
+    def input_type(self):
+        assert self.type and self.type in self.STEP_TYPE_TO_INPUT_TYPE, "step.input_type can only be called on input step types"
+        return self.STEP_TYPE_TO_INPUT_TYPE[self.type]
 
     @property
     def tool_uuid(self):
@@ -4257,6 +4286,12 @@ class WorkflowStep(RepresentById):
             self.setup_input_connections_by_name()
         return self._input_connections_by_name
 
+    @property
+    def inputs_by_name(self):
+        if self._inputs_by_name is None:
+            self.setup_inputs_by_name()
+        return self._inputs_by_name
+
     def setup_input_connections_by_name(self):
         # Ensure input_connections has already been set.
 
@@ -4268,6 +4303,17 @@ class WorkflowStep(RepresentById):
                 input_connections_by_name[input_name] = []
             input_connections_by_name[input_name].append(conn)
         self._input_connections_by_name = input_connections_by_name
+
+    def setup_inputs_by_name(self):
+        # Ensure input_connections has already been set.
+
+        # Make connection information available on each step by input name.
+        inputs_by_name = {}
+        for step_input in self.inputs:
+            input_name = step_input.name
+            assert input_name not in inputs_by_name
+            inputs_by_name[input_name] = step_input
+        self._inputs_by_name = inputs_by_name
 
     def create_or_update_workflow_output(self, output_name, label, uuid):
         output = self.workflow_output_for(output_name)
@@ -4319,12 +4365,12 @@ class WorkflowStep(RepresentById):
         copied_step.workflow_outputs = copy_list(self.workflow_outputs, copied_step)
 
     def log_str(self):
-        return "WorkflowStep[index=%d,type=%s]" % (self.order_index, self.type)
+        return "WorkflowStep[index=%d,type=%s,label=%s]" % (self.order_index, self.type, self.label)
 
 
 class WorkflowStepInput(RepresentById):
-    default_merge_type = None
-    default_scatter_type = None
+    default_merge_type = "merge_flattened"
+    default_scatter_type = "dotproduct"
 
     def __init__(self, workflow_step):
         self.workflow_step = workflow_step
@@ -4381,6 +4427,11 @@ class WorkflowStepConnection(RepresentById):
         copied_connection = WorkflowStepConnection()
         copied_connection.output_name = self.output_name
         return copied_connection
+
+    def log_str(self):
+        return "WorkflowStepConnection[output_step_id=%s,output_name=%s,input_step_id=%s,input_name=%s]" % (
+            self.output_step_id, self.output_name, self.input_step_id, self.input_name
+        )
 
 
 class WorkflowOutput(RepresentById):
