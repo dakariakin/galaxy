@@ -458,6 +458,10 @@ class GalaxyAppConfiguration(BaseAppConfiguration):
         # you want yours tools to be broken in the future.
         self.enable_beta_tool_formats = string_as_bool(kwargs.get('enable_beta_tool_formats', 'False'))
 
+        # TODO: migrate to schema.
+        # Should CWL artifacts be loaded with strict validation enabled.
+        self.strict_cwl_validation = string_as_bool(kwargs.get('strict_cwl_validation', 'True'))
+
         workflow_resource_params_mapper = kwargs.get("workflow_resource_params_mapper", None)
         if not workflow_resource_params_mapper:
             workflow_resource_params_mapper = None

@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import json
 import logging
 import os
+import tempfile
 import uuid
 from collections import namedtuple
 
@@ -24,6 +25,7 @@ from galaxy import (
 )
 from galaxy.jobs.actions.post import ActionBox
 from galaxy.model.item_attrs import UsesAnnotations
+from galaxy.tool_util.cwl import workflow_proxy
 from galaxy.tools.parameters import (
     params_to_incoming,
     visit_input_values
@@ -247,6 +249,35 @@ class WorkflowsManager(object):
 CreatedWorkflow = namedtuple("CreatedWorkflow", ["stored_workflow", "workflow", "missing_tools"])
 
 
+def artifact_class(trans, as_dict):
+    object_id = as_dict.get("object_id", None)
+    if as_dict.get("src", None) == "from_path":
+        if trans and not trans.user_is_admin:
+            raise exceptions.AdminRequiredException()
+
+        workflow_path = as_dict.get("path")
+        with open(workflow_path, "r") as f:
+            as_dict = ordered_load(f)
+
+    artifact_class = as_dict.get("class", None)
+    if artifact_class is None and "$graph" in as_dict:
+        object_id = object_id or "main"
+        graph = as_dict["$graph"]
+        target_object = None
+        if isinstance(graph, dict):
+            target_object = graph.get(object_id)
+        else:
+            for item in graph:
+                found_id = item.get("id")
+                if found_id == object_id or found_id == "#" + object_id:
+                    target_object = item
+
+        if target_object and target_object.get("class"):
+            artifact_class = target_object["class"]
+
+    return artifact_class, as_dict, object_id
+
+
 class WorkflowContentsManager(UsesAnnotations):
 
     def __init__(self, app):
@@ -275,17 +306,41 @@ class WorkflowContentsManager(UsesAnnotations):
                 raise exceptions.AdminRequiredException()
 
             workflow_path = as_dict.get("path")
-            with open(workflow_path, "r") as f:
-                as_dict = ordered_load(f)
             workflow_directory = os.path.normpath(os.path.dirname(workflow_path))
 
-        workflow_class = as_dict.get("class", None)
-        if workflow_class == "GalaxyWorkflow" or "$graph" in as_dict or "yaml_content" in as_dict:
+        workflow_class, as_dict, object_id = artifact_class(trans, as_dict)
+        if workflow_class == "GalaxyWorkflow" or "yaml_content" in as_dict:
             # Format 2 Galaxy workflow.
             galaxy_interface = Format2ConverterGalaxyInterface()
             import_options = ImportOptions()
             import_options.deduplicate_subworkflows = True
             as_dict = python_to_workflow(as_dict, galaxy_interface, workflow_directory=workflow_directory, import_options=import_options)
+        elif workflow_class == "Workflow":
+            from galaxy.tool_util.cwl import workflow_proxy
+            # create a temporary file for the workflow if it is provided
+            # as JSON, to make it parseable by the WorkflowProxy
+            if workflow_path is None:
+                f = tempfile.NamedTemporaryFile(delete=False)
+                json.dump(as_dict, f)
+                workflow_path = f.name
+                f.close()
+                if object_id:
+                    workflow_path += "#" + object_id
+                wf_proxy = workflow_proxy(workflow_path)
+                os.unlink(f.name)
+            else:
+                # TODO: consume and use object_id...
+                if object_id:
+                    workflow_path += "#" + object_id
+                wf_proxy = workflow_proxy(workflow_path)
+            tool_reference_proxies = wf_proxy.tool_reference_proxies()
+            for tool_reference_proxy in tool_reference_proxies:
+                # TODO: Namespace IDS in workflows.
+                representation = tool_reference_proxy.to_persistent_representation()
+                self.app.dynamic_tool_manager.create_tool(trans, {
+                    "representation": representation,
+                }, allow_load=True)
+            as_dict = wf_proxy.to_dict()
 
         return RawWorkflowDescription(as_dict, workflow_path)
 
@@ -303,6 +358,7 @@ class WorkflowContentsManager(UsesAnnotations):
         data = raw_workflow_description.as_dict
         # Put parameters in workflow mode
         trans.workflow_building_mode = workflow_building_modes.ENABLED
+
         # If there's a source, put it in the workflow name.
         if 'name' not in data:
             raise Exception("Invalid workflow format detected [%s]" % data)
@@ -398,6 +454,10 @@ class WorkflowContentsManager(UsesAnnotations):
         data = raw_workflow_description.as_dict
         if isinstance(data, string_types):
             data = json.loads(data)
+        if "src" in data:
+            assert data["src"] == "path"
+            wf_proxy = workflow_proxy(data["path"])
+            data = wf_proxy.to_dict()
 
         # Create new workflow from source data
         workflow = model.Workflow()
@@ -1109,7 +1169,7 @@ class WorkflowContentsManager(UsesAnnotations):
         """
         step = model.WorkflowStep()
         # TODO: Consider handling position inside module.
-        step.position = step_dict['position']
+        step.position = step_dict.get('position', {"left": 0, "top": 0})
         if step_dict.get("uuid", None) and step_dict['uuid'] != "None":
             step.uuid = step_dict["uuid"]
         if "label" in step_dict:
@@ -1126,6 +1186,19 @@ class WorkflowContentsManager(UsesAnnotations):
 
         # Stick this in the step temporarily
         step.temp_input_connections = step_dict['input_connections']
+
+        if "inputs" in step_dict:
+            for input_dict in step_dict["inputs"]:
+                step_input = model.WorkflowStepInput(step)
+                step_input.name = input_dict["name"]
+                step_input.merge_type = input_dict.get("merge_type", step_input.default_merge_type)
+                step_input.scatter_type = input_dict.get("scatter_type", step_input.default_scatter_type)
+                value_from = input_dict.get("value_from", None)
+                if value_from is None:
+                    # Super hacky - we probably need distinct value from and
+                    # default handling.
+                    value_from = input_dict.get("default")
+                step_input.value_from = value_from
 
         # Create the model class for the step
         steps.append(step)
