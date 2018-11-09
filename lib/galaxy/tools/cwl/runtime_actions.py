@@ -198,6 +198,14 @@ def handle_outputs(job_directory=None):
             raise Exception("Unknown output type [%s] encountered" % output)
         provided_metadata[output_name] = file_metadata
 
+    def handle_known_output_json(output, output_name):
+        target_path = job_proxy.output_path(output_name)
+        with open(target_path, "w") as f:
+            f.write(json.dumps(output))
+        provided_metadata[output_name] = {
+            "ext": "expression.json",
+        }
+
     for output_name, output in outputs.items():
         if isinstance(output, dict) and "location" in output:
             handle_known_output(output, output_name, output_name)
@@ -205,7 +213,12 @@ def handle_outputs(job_directory=None):
             prefix = "%s|__part__|" % output_name
             for record_key, record_value in output.items():
                 record_value_output_key = "%s%s" % (prefix, record_key)
-                handle_known_output(record_value, record_value_output_key, output_name)
+                if isinstance(record_value, dict) and "class" in record_value:
+                    handle_known_output(record_value, record_value_output_key, output_name)
+                else:
+                    # param_evaluation_noexpr
+                    handle_known_output_json(output, output_name)
+
         elif isinstance(output, list):
             elements = []
             for index, el in enumerate(output):
@@ -219,12 +232,7 @@ def handle_outputs(job_directory=None):
                     elements.append({"name": str(index), "filename": target_path, "ext": "expression.json"})
             provided_metadata[output_name] = {"elements": elements}
         else:
-            target_path = job_proxy.output_path(output_name)
-            with open(target_path, "w") as f:
-                f.write(json.dumps(output))
-            provided_metadata[output_name] = {
-                "ext": "expression.json",
-            }
+            handle_known_output_json(output, output_name)
 
     with open("galaxy.json", "w") as f:
         json.dump(provided_metadata, f)
