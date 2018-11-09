@@ -47,12 +47,16 @@ def _possible_uri_to_path(location):
 
 
 def file_dict_to_description(file_dict):
-    assert file_dict["class"] == "File", file_dict
+    output_class = file_dict["class"]
+    assert output_class in ["File", "Directory"], file_dict
     location = file_dict["location"]
     if location.startswith("_:"):
+        assert output_class == "File"
         return LiteralFileDescription(file_dict["contents"])
-    else:
+    elif output_class == "File":
         return PathFileDescription(_possible_uri_to_path(location))
+    else:
+        return PathDirectoryDescription(_possible_uri_to_path(location))
 
 
 class FileDescription(object):
@@ -67,6 +71,15 @@ class PathFileDescription(object):
     def write_to(self, destination):
         # TODO: Move if we can be sure this is in the working directory for instance...
         shutil.copy(self.path, destination)
+
+
+class PathDirectoryDescription(object):
+
+    def __init__(self, path):
+        self.path = path
+
+    def write_to(self, destination):
+        shutil.copytree(self.path, destination)
 
 
 class LiteralFileDescription(object):
@@ -85,15 +98,6 @@ def _possible_uri_to_path(location):
     else:
         path = location
     return path
-
-
-def file_dict_to_description(file_dict):
-    assert file_dict["class"] == "File", file_dict
-    location = file_dict["location"]
-    if location.startswith("_:"):
-        return LiteralFileDescription(file_dict["contents"])
-    else:
-        return PathFileDescription(_possible_uri_to_path(location))
 
 
 def handle_outputs(job_directory=None):
