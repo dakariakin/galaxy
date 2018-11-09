@@ -964,7 +964,7 @@ class ToolStepProxy(BaseStepProxy):
 
     @property
     def tool_proxy(self):
-        return cwl_tool_object_to_proxy(tool_object=self.cwl_tool_object)
+        return cwl_tool_object_to_proxy(self.cwl_tool_object)
 
     def tool_references(self):
         # Return a list so we can handle subworkflows recursively in the future.
