@@ -243,7 +243,7 @@ def galactic_job_json(
                 dataset = replacement_item(record_value, force_to_file=True)
                 collection_element = dataset.copy()
             else:
-                dataset = upload_file(record_value["location"])
+                dataset = upload_file(record_value["location"], [])
                 collection_element = dataset.copy()
 
             collection_element["name"] = record_key
