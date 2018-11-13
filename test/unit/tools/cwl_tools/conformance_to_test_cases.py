@@ -36,6 +36,13 @@ RED_TESTS = {
     "wf_scatter_nested_crossproduct_secondempty": "not implemented",
     "wf_scatter_nested_crossproduct_firstempty": "not implemented",
     "wf_scatter_flat_crossproduct_oneempty": "AssertionError: Unimplemented scatter type [flat_crossproduct]",
+    "format_checking": "format stuff not implemented",
+    "format_checking_subclass": "format stuff not implemented",
+    "format_checking_equivalentclass": "format stuff not implemented",
+    "output_secondaryfile_optional": "expected null got file of size 4 (maybe null?)",
+    "valuefrom_ignored_null": "wrong output, vf-concat.cwl with empty.json",
+    "valuefrom_wf_step": "ValidationException: [Errno 2] No such file or directory: '/Users/john/workspace/galaxy/step_input:/1'",
+    "valuefrom_wf_step_multiple": "basic.py problem ValueError: invalid literal for int() with base 10: ''",
 }
 
 
@@ -111,6 +118,8 @@ GREEN_TESTS += [
     "schemadef_req_wf_param",
     "param_evaluation_noexpr",
     "initial_workdir_secondary_files_expr",
+    "param_evaluation_expr",
+    "valuefrom_secondexpr_ignored",
 ]
 
 
