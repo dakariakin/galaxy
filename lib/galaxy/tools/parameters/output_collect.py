@@ -482,6 +482,8 @@ class JobContext(ModelPersistenceContext):
             if dbkey == INPUT_DBKEY_TOKEN:
                 dbkey = self.input_dbkey
 
+            created_from_basename = fields_match.created_from_basename or None
+
             # Create new primary dataset
             dataset_name = fields_match.name or designation
 
@@ -504,6 +506,9 @@ class JobContext(ModelPersistenceContext):
                 sources=sources,
                 hashes=hashes,
             )
+            if created_from_basename:
+                dataset.created_from_basename = created_from_basename
+
             log.debug(
                 "(%s) Created dynamic collection dataset for path [%s] with element identifier [%s] for output [%s] %s",
                 self.job.id,
@@ -911,6 +916,10 @@ class JsonCollectedDatasetMatch(object):
     @property
     def hashes(self):
         return self.as_dict.get("hashes", [])
+
+    @property
+    def created_from_basename(self):
+        return self.as_dict.get("created_from_basename")
 
 
 class RegexCollectedDatasetMatch(JsonCollectedDatasetMatch):
