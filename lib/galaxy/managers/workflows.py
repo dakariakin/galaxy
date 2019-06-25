@@ -305,10 +305,23 @@ class WorkflowContentsManager(UsesAnnotations):
             as_dict = python_to_workflow(as_dict, galaxy_interface, workflow_directory=workflow_directory, import_options=import_options)
         elif workflow_class == "Workflow":
             from galaxy.tools.cwl import workflow_proxy
-            # TODO: consume and use object_id...
-            if object_id:
-                workflow_path += "#" + object_id
-            wf_proxy = workflow_proxy(workflow_path)
+            # create a temporary file for the workflow if it is provided
+            # as JSON, to make it parseable by the WorkflowProxy
+            if workflow_path is None:
+                import tempfile, os
+                f = tempfile.NamedTemporaryFile(delete=False)
+                json.dump(as_dict, f)
+                workflow_path = f.name
+                f.close()
+                if object_id:
+                    workflow_path += "#" + object_id
+                wf_proxy = workflow_proxy(workflow_path)
+                os.unlink(f.name)
+            else:
+                # TODO: consume and use object_id...
+                if object_id:
+                    workflow_path += "#" + object_id
+                wf_proxy = workflow_proxy(workflow_path)
             tool_reference_proxies = wf_proxy.tool_reference_proxies()
             for tool_reference_proxy in tool_reference_proxies:
                 # TODO: Namespace IDS in workflows.
