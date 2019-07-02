@@ -19,8 +19,7 @@ try:
         process,
         pathmapper,
     )
-except (ImportError, SyntaxError):
-    # Drop SyntaxError once cwltool supports Python 3
+except ImportError:
     main = None
     workflow = None
     job = None
@@ -30,13 +29,13 @@ except (ImportError, SyntaxError):
 try:
     from cwltool.context import LoadingContext  # Introduced in cwltool 1.0.20180615183820
     from cwltool.context import RuntimeContext
-except (ImportError, SyntaxError):
+except ImportError:
     LoadingContext = None
     RuntimeContext = None
 
 try:
     from cwltool import load_tool
-except (ImportError, SyntaxError):
+except ImportError:
     load_tool = None
 
 try:
@@ -57,8 +56,7 @@ except ImportError:
 
 try:
     import schema_salad
-except (ImportError, SyntaxError):
-    # Drop SyntaxError once schema_salad supports Python 3
+except ImportError:
     schema_salad = None
 
 try:
