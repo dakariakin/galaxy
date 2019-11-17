@@ -4648,6 +4648,11 @@ class Workflow(Dictifiable, RepresentById):
 
 
 class WorkflowStep(RepresentById):
+    STEP_TYPE_TO_INPUT_TYPE = {
+        "data_input": "dataset",
+        "data_collection_input": "dataset_collection",
+        "parameter_input": "parameter",
+    }
 
     def __init__(self):
         self.id = None
@@ -4667,6 +4672,11 @@ class WorkflowStep(RepresentById):
     @property
     def tool_uuid(self):
         return self.dynamic_tool and self.dynamic_tool.uuid
+
+    @property
+    def input_type(self):
+        assert self.type and self.type in self.STEP_TYPE_TO_INPUT_TYPE, "step.input_type can only be called on input step types"
+        return self.STEP_TYPE_TO_INPUT_TYPE[self.type]
 
     @property
     def input_default_value(self):
