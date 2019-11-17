@@ -31,7 +31,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/bwa-mem-tool.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """General test of command line generation""")
 
     def test_conformance_v1_0_nested_prefixes_arrays(self):
@@ -55,7 +55,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/binding-test.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test nested prefixes with arrays""")
 
     def test_conformance_v1_0_cl_optional_inputs_missing(self):
@@ -73,7 +73,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/cat1-testcli.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test command line with optional input (missing)""")
 
     def test_conformance_v1_0_cl_optional_bindings_provided(self):
@@ -92,7 +92,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/cat1-testcli.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test command line with optional input (provided)""")
 
     def test_conformance_v1_0_stdout_redirect_docker(self):
@@ -112,7 +112,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/cat3-tool.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test command execution in Docker with stdout redirection""")
 
     def test_conformance_v1_0_stdout_redirect_shortcut_docker(self):
@@ -132,7 +132,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/cat3-tool-shortcut.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test command execution in Docker with shortcut stdout redirection""")
 
     def test_conformance_v1_0_stdout_redirect_mediumcut_docker(self):
@@ -152,7 +152,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/cat3-tool-mediumcut.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test command execution in Docker with mediumcut stdout redirection""")
 
     def test_conformance_v1_0_stdinout_redirect_docker(self):
@@ -172,7 +172,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/cat4-tool.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test command execution in Docker with stdin and stdout redirection""")
 
     def test_conformance_v1_0_any_outputSource_compatibility(self):
@@ -194,7 +194,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - workflow
             tool: v1.0/any-type-compat.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Testing Any type compatibility in outputSource""")
 
     def test_conformance_v1_0_stdinout_redirect(self):
@@ -214,7 +214,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/cat-tool.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test command execution in with stdin and stdout redirection""")
 
     def test_conformance_v1_0_wf_default_tool_default(self):
@@ -230,7 +230,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - workflow
             tool: v1.0/echo-wf-default.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test that workflow defaults override tool defaults""")
 
     def test_conformance_v1_0_any_input_param(self):
@@ -248,7 +248,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/echo-tool.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test Any type input parameter""")
 
     def test_conformance_v1_0_wf_simple(self):
@@ -268,7 +268,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - workflow
             tool: v1.0/revsort.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test simple workflow""")
 
     def test_conformance_v1_0_hints_unknown_ignored(self):
@@ -288,7 +288,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/cat5-tool.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test unknown hints are ignored.""")
 
     def test_conformance_v1_0_param_evaluation_noexpr(self):
@@ -365,7 +365,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/params.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test parameter evaluation, no support for JS expressions
 """)
 
@@ -380,7 +380,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             tags:
             - required
             tool: v1.0/metadata.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test metadata""")
 
     def test_conformance_v1_0_format_checking(self):
@@ -402,7 +402,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/formattest.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test simple format checking.
 """)
 
@@ -425,7 +425,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/formattest2.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test format checking against ontology using subclassOf.
 """)
 
@@ -448,7 +448,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/formattest3.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test format checking against ontology using equivalentClass.
 """)
 
@@ -477,7 +477,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/glob-expr-list.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test support for returning multiple glob patterns from expression""")
 
     def test_conformance_v1_0_wf_two_inputfiles_namecollision(self):
@@ -497,7 +497,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - workflow
             tool: v1.0/conflict-wf.cwl#collision
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test workflow two input files with same name.""")
 
     def test_conformance_v1_0_directory_input_docker(self):
@@ -517,7 +517,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/dir2.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test directory input in Docker""")
 
     def test_conformance_v1_0_directory_output(self):
@@ -543,7 +543,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/dir3.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test directory output""")
 
     def test_conformance_v1_0_input_file_literal(self):
@@ -563,7 +563,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/cat3-tool.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test file literal as input""")
 
     def test_conformance_v1_0_nameroot_nameext_stdout_expr(self):
@@ -583,7 +583,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/nameroot.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test nameroot/nameext expression in arguments, stdout""")
 
     def test_conformance_v1_0_cl_gen_arrayofarrays(self):
@@ -603,7 +603,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/nested-array.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test command line generation of array-of-arrays""")
 
     def test_conformance_v1_0_hints_import(self):
@@ -623,7 +623,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/imported-hint.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test hints with $import""")
 
     def test_conformance_v1_0_default_path_notfound_warning(self):
@@ -638,7 +638,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/default_path.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test warning instead of error when default path is not found""")
 
     def test_conformance_v1_0_wf_compound_doc(self):
@@ -658,7 +658,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - workflow
             tool: v1.0/revsort-packed.cwl#main
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test compound workflow document""")
 
     def test_conformance_v1_0_shelldir_notinterpreted(self):
@@ -683,7 +683,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/shellchar.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test that shell directives are not interpreted.""")
 
     def test_conformance_v1_0_fileliteral_input_docker(self):
@@ -703,7 +703,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/cat3-nodocker.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test file literal as input without Docker""")
 
     def test_conformance_v1_0_outputbinding_glob_sorted(self):
@@ -747,7 +747,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/glob_test.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test that OutputBinding.glob is sorted as specified by POSIX""")
 
     def test_conformance_v1_0_booleanflags_cl_noinputbinding(self):
@@ -763,7 +763,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/bool-empty-inputbinding.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test that boolean flags do not appear on command line if inputBinding is empty and not null""")
 
     def test_conformance_v1_0_expr_reference_self_noinput(self):
@@ -779,7 +779,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/stage-unprovided-file.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test that expression engine does not fail to evaluate reference to self with unprovided input""")
 
     def test_conformance_v1_0_success_codes(self):
@@ -794,7 +794,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/exit-success.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test successCodes""")
 
     def test_conformance_v1_0_cl_empty_array_input(self):
@@ -810,7 +810,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/empty-array-input.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test that empty array input does not add anything to command line""")
 
     def test_conformance_v1_0_valuefrom_constant_overrides_inputs(self):
@@ -827,7 +827,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             - required
             - command_line_tool
             tool: v1.0/valueFrom-constant.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test valueFrom with constant value overriding provided array inputs""")
 
     def test_conformance_v1_0_wf_step_connect_undeclared_param(self):
@@ -848,7 +848,7 @@ inputs.
             - required
             - workflow
             tool: v1.0/pass-unconnected.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test that it is not an error to connect a parameter to a workflow
 step, even if the parameter doesn't appear in the `run` process
 inputs.
@@ -868,7 +868,7 @@ inputs are not present in the input object used to run the tool.
             - required
             - workflow
             tool: v1.0/fail-unconnected.cwl
-        """
+        """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test that parameters that don't appear in the `run` process
 inputs are not present in the input object used to run the tool.
 """)
