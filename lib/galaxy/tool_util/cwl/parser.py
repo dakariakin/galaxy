@@ -12,16 +12,18 @@ import os
 import pickle
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
+from uuid import uuid4
 
 import six
 
 from galaxy.exceptions import MessageException
-from galaxy.util import listify, safe_makedirs
+from galaxy.util import listify, safe_makedirs, unicodify
 from galaxy.util.bunch import Bunch
 from .cwltool_deps import (
     ensure_cwltool_available,
     pathmapper,
     process,
+    RuntimeContext,
 )
 from .representation import (
     field_to_field_type,
@@ -31,8 +33,8 @@ from .representation import (
     USE_FIELD_TYPES,
     USE_STEP_PARAMETERS,
 )
-from .schema import non_strict_schema_loader, schema_loader
-from .util import SECONDARY_FILES_EXTRA_PREFIX
+from .schema import non_strict_non_validating_schema_loader, schema_loader
+from .util import guess_artifact_type, SECONDARY_FILES_EXTRA_PREFIX
 
 log = logging.getLogger(__name__)
 
@@ -45,8 +47,10 @@ SUPPORTED_TOOL_REQUIREMENTS = [
     "EnvVarRequirement",
     "InitialWorkDirRequirement",
     "InlineJavascriptRequirement",
+    "ResourceRequirement",
     "ShellCommandRequirement",
     "ScatterFeatureRequirement",
+    "SchemaDefRequirement",
     "SubworkflowFeatureRequirement",
     "StepInputExpressionRequirement",
     "MultipleInputFeatureRequirement",
@@ -56,29 +60,42 @@ SUPPORTED_TOOL_REQUIREMENTS = [
 SUPPORTED_WORKFLOW_REQUIREMENTS = SUPPORTED_TOOL_REQUIREMENTS + [
 ]
 
+PERSISTED_REPRESENTATION = "cwl_tool_object"
 
-def tool_proxy(tool_path=None, tool_object=None, strict_cwl_validation=True):
+
+def tool_proxy(tool_path=None, tool_object=None, strict_cwl_validation=True, tool_directory=None, uuid=None):
     """ Provide a proxy object to cwltool data structures to just
     grab relevant data.
     """
     ensure_cwltool_available()
-    tool = to_cwl_tool_object(
+    if uuid is None:
+        raise Exception("tool_proxy must be called with non-None uuid")
+    tool = _to_cwl_tool_object(
         tool_path=tool_path,
         tool_object=tool_object,
-        strict_cwl_validation=strict_cwl_validation
+        strict_cwl_validation=strict_cwl_validation,
+        tool_directory=tool_directory,
+        uuid=uuid
     )
     return tool
 
 
-def tool_proxy_from_persistent_representation(persisted_tool, strict_cwl_validation=True):
+def tool_proxy_from_persistent_representation(persisted_tool, strict_cwl_validation=True, tool_directory=None):
+    """Load a ToolProxy from a previously persisted representation."""
     ensure_cwltool_available()
-    tool = to_cwl_tool_object(persisted_tool=persisted_tool, strict_cwl_validation=strict_cwl_validation)
+    if PERSISTED_REPRESENTATION == "cwl_tool_object":
+        kwds = {"cwl_tool_object": ToolProxy.from_persistent_representation(persisted_tool)}
+    else:
+        raw_process_reference = persisted_tool  # ???
+        kwds = {"raw_process_reference": ToolProxy.from_persistent_representation(raw_process_reference)}
+    uuid = persisted_tool["uuid"]
+    tool = _to_cwl_tool_object(uuid=uuid, strict_cwl_validation=strict_cwl_validation, tool_directory=tool_directory, **kwds)
     return tool
 
 
 def workflow_proxy(workflow_path, strict_cwl_validation=True):
     ensure_cwltool_available()
-    workflow = to_cwl_workflow_object(workflow_path, strict_cwl_validation=strict_cwl_validation)
+    workflow = _to_cwl_workflow_object(workflow_path, strict_cwl_validation=strict_cwl_validation)
     return workflow
 
 
@@ -94,18 +111,27 @@ def load_job_proxy(job_directory, strict_cwl_validation=True):
         cwl_tool = tool_proxy(tool_path, strict_cwl_validation=strict_cwl_validation)
     else:
         persisted_tool = job_objects["tool_representation"]
-        cwl_tool = tool_proxy_from_persistent_representation(persisted_tool, strict_cwl_validation=strict_cwl_validation)
+        cwl_tool = tool_proxy_from_persistent_representation(persisted_tool=persisted_tool, strict_cwl_validation=strict_cwl_validation)
     cwl_job = cwl_tool.job_proxy(job_inputs, output_dict, job_directory=job_directory)
     return cwl_job
 
 
-def to_cwl_tool_object(tool_path=None, tool_object=None, persisted_tool=None, strict_cwl_validation=True):
+def _to_cwl_tool_object(tool_path=None, tool_object=None, cwl_tool_object=None, raw_process_reference=None, strict_cwl_validation=False, tool_directory=None, uuid=None):
+    if uuid is None:
+        uuid = str(uuid4())
     schema_loader = _schema_loader(strict_cwl_validation)
-    if tool_path is not None:
+    if raw_process_reference is None and tool_path is not None:
+        assert cwl_tool_object is None
+        assert tool_object is None
+
+        raw_process_reference = schema_loader.raw_process_reference(tool_path)
         cwl_tool = schema_loader.tool(
-            path=tool_path
+            raw_process_reference=raw_process_reference,
         )
     elif tool_object is not None:
+        assert raw_process_reference is None
+        assert cwl_tool_object is None
+
         # Allow loading tools from YAML...
         from ruamel import yaml as ryaml
         import json
@@ -113,9 +139,12 @@ def to_cwl_tool_object(tool_path=None, tool_object=None, persisted_tool=None, st
         tool_object = ryaml.round_trip_load(as_str)
         from schema_salad import sourceline
         from schema_salad.ref_resolver import file_uri
-        uri = file_uri(os.getcwd()) + "/"
+        path = tool_directory
+        if path is None:
+            path = os.getcwd()
+        uri = file_uri(path) + "/"
         sourceline.add_lc_filename(tool_object, uri)
-        tool_object, _ = schema_loader.raw_document_loader.resolve_all(tool_object, uri)
+        # tool_object, _ = schema_loader.raw_document_loader.resolve_all(tool_object, uri, checklinks=False)
         raw_process_reference = schema_loader.raw_process_reference_for_object(
             tool_object,
             uri=uri
@@ -124,7 +153,7 @@ def to_cwl_tool_object(tool_path=None, tool_object=None, persisted_tool=None, st
             raw_process_reference=raw_process_reference,
         )
     else:
-        cwl_tool = ToolProxy.from_persistent_representation(persisted_tool)
+        cwl_tool = cwl_tool_object
 
     if isinstance(cwl_tool, int):
         raise Exception("Failed to load tool.")
@@ -134,10 +163,10 @@ def to_cwl_tool_object(tool_path=None, tool_object=None, persisted_tool=None, st
     # between Galaxy and cwltool.
     _hack_cwl_requirements(cwl_tool)
     check_requirements(raw_tool)
-    return cwl_tool_object_to_proxy(cwl_tool, tool_path=tool_path)
+    return _cwl_tool_object_to_proxy(cwl_tool, uuid, raw_process_reference=raw_process_reference, tool_path=tool_path)
 
 
-def cwl_tool_object_to_proxy(cwl_tool, tool_path=None):
+def _cwl_tool_object_to_proxy(cwl_tool, uuid, raw_process_reference=None, tool_path=None):
     raw_tool = cwl_tool.tool
     if "class" not in raw_tool:
         raise Exception("File does not declare a class, not a valid Draft 3+ CWL tool.")
@@ -153,11 +182,11 @@ def cwl_tool_object_to_proxy(cwl_tool, tool_path=None):
     if top_level_object and ("cwlVersion" not in raw_tool):
         raise Exception("File does not declare a CWL version, pre-draft 3 CWL tools are not supported.")
 
-    proxy = proxy_class(cwl_tool, tool_path)
+    proxy = proxy_class(cwl_tool, uuid, raw_process_reference, tool_path)
     return proxy
 
 
-def to_cwl_workflow_object(workflow_path, strict_cwl_validation=None):
+def _to_cwl_workflow_object(workflow_path, strict_cwl_validation=None):
     proxy_class = WorkflowProxy
     cwl_workflow = _schema_loader(strict_cwl_validation).tool(path=workflow_path)
     raw_workflow = cwl_workflow.tool
@@ -168,7 +197,7 @@ def to_cwl_workflow_object(workflow_path, strict_cwl_validation=None):
 
 
 def _schema_loader(strict_cwl_validation):
-    target_schema_loader = schema_loader if strict_cwl_validation else non_strict_schema_loader
+    target_schema_loader = schema_loader if strict_cwl_validation else non_strict_non_validating_schema_loader
     return target_schema_loader
 
 
@@ -203,9 +232,11 @@ def check_requirements(rec, tool=True):
 @six.add_metaclass(ABCMeta)
 class ToolProxy(object):
 
-    def __init__(self, tool, tool_path=None):
+    def __init__(self, tool, uuid, raw_process_reference=None, tool_path=None):
         self._tool = tool
+        self._uuid = uuid
         self._tool_path = tool_path
+        self._raw_process_reference = raw_process_reference
 
     def job_proxy(self, input_dict, output_dict, job_directory="."):
         """ Build a cwltool.job.Job describing computation using a input_json
@@ -223,12 +254,14 @@ class ToolProxy(object):
         raw_id = self.id
         tool_id = None
         # don't reduce "search.cwl#index" to search
-        if raw_id and "#" not in raw_id:
-            tool_id = os.path.splitext(os.path.basename(raw_id))[0]
+        if raw_id:
+            tool_id = os.path.basename(raw_id)
+            # tool_id = os.path.splitext(os.path.basename(raw_id))[0]
         if not tool_id:
-            from galaxy.tools.hash import build_tool_hash
-            tool_id = build_tool_hash(self.to_persistent_representation())
+            return self._uuid
         assert tool_id
+        if tool_id.startswith("#"):
+            tool_id = tool_id[1:]
         return tool_id
 
     @abstractmethod
@@ -256,9 +289,14 @@ class ToolProxy(object):
         over the wire, but serialization in a database."""
         # TODO: Replace this with some more readable serialization,
         # I really don't like using pickle here.
+        if PERSISTED_REPRESENTATION == "cwl_tool_object":
+            persisted_obj = remove_pickle_problems(self._tool)
+        else:
+            persisted_obj = self._raw_process_reference
         return {
             "class": self._class,
-            "pickle": base64.b64encode(pickle.dumps(remove_pickle_problems(self._tool), -1)),
+            "pickle": unicodify(base64.b64encode(pickle.dumps(persisted_obj, pickle.HIGHEST_PROTOCOL))),
+            "uuid": self._uuid,
         }
 
     @staticmethod
@@ -268,7 +306,10 @@ class ToolProxy(object):
             raise Exception("Failed to deserialize tool proxy from JSON object - no class found.")
         if "pickle" not in as_object:
             raise Exception("Failed to deserialize tool proxy from JSON object - no pickle representation found.")
-        return pickle.loads(base64.b64decode(as_object["pickle"]))
+        if "uuid" not in as_object:
+            raise Exception("Failed to deserialize tool proxy from JSON object - no uuid found.")
+        to_unpickle = base64.b64decode(as_object["pickle"])
+        return pickle.loads(to_unpickle)
 
 
 class CommandLineToolProxy(ToolProxy):
@@ -281,25 +322,38 @@ class CommandLineToolProxy(ToolProxy):
         return self._tool.tool.get('label')
 
     def input_fields(self):
-        input_records_schema = self._tool.inputs_record_schema
-        schema_type = input_records_schema["type"]
-        if schema_type in self._tool.schemaDefs:
-            input_records_schema = self._tool.schemaDefs[schema_type]
-
+        input_records_schema = self._eval_schema(self._tool.inputs_record_schema)
         if input_records_schema["type"] != "record":
             raise Exception("Unhandled CWL tool input structure")
 
-        return input_records_schema["fields"]
+        # TODO: handle this somewhere else?
+        # schemadef_req_tool_param
+        rval = []
+        for input in input_records_schema["fields"]:
+            import copy
+            input_copy = copy.deepcopy(input)
+            input_type = input.get("type")
+            if isinstance(input_type, list) or isinstance(input_type, dict):
+                rval.append(input_copy)
+                continue
+
+            if input_type in self._tool.schemaDefs:
+                input_copy["type"] = self._tool.schemaDefs[input_type]
+
+            rval.append(input_copy)
+        return rval
+
+    def _eval_schema(self, io_schema):
+        schema_type = io_schema.get("type")
+        if schema_type in self._tool.schemaDefs:
+            io_schema = self._tool.schemaDefs[schema_type]
+        return io_schema
 
     def input_instances(self):
         return [_outer_field_to_input_instance(_) for _ in self.input_fields()]
 
     def output_instances(self):
-        outputs_schema = self._tool.outputs_record_schema
-        schema_type = outputs_schema["type"]
-        if schema_type in self._tool.schemaDefs:
-            outputs_schema = self._tool.schemaDefs[schema_type]
-
+        outputs_schema = self._eval_schema(self._tool.outputs_record_schema)
         if outputs_schema["type"] != "record":
             raise Exception("Unhandled CWL tool output structure")
 
@@ -371,16 +425,26 @@ class JobProxy(object):
 
     def _ensure_cwl_job_initialized(self):
         if self._cwl_job is None:
-
-            self._cwl_job = next(self._tool_proxy._tool.job(
-                self._input_dict,
-                self._output_callback,
+            job_args = dict(
                 basedir=self._job_directory,
                 select_resources=self._select_resources,
                 outdir=os.path.join(self._job_directory, "working"),
                 tmpdir=os.path.join(self._job_directory, "cwltmp"),
                 stagedir=os.path.join(self._job_directory, "cwlstagedir"),
                 use_container=False,
+                beta_relaxed_fmt_check=False,
+            )
+
+            args = []
+            kwargs = {}
+            if RuntimeContext is not None:
+                args.append(RuntimeContext(job_args))
+            else:
+                kwargs = job_args
+            self._cwl_job = next(self._tool_proxy._tool.job(
+                self._input_dict,
+                self._output_callback,
+                *args, **kwargs
             ))
             self._is_command_line_job = hasattr(self._cwl_job, "command_line")
 
@@ -390,7 +454,13 @@ class JobProxy(object):
             if "location" not in p and "path" in p:
                 p["location"] = p["path"]
                 del p["path"]
-        process.fillInDefaults(self._tool_proxy._tool.tool["inputs"], self._input_dict)
+
+        runtime_context = RuntimeContext({})
+        from cwltool.stdfsaccess import StdFsAccess
+        from cwltool.context import getdefault
+        make_fs_access = getdefault(runtime_context.make_fs_access, StdFsAccess)
+        fs_access = make_fs_access(runtime_context.basedir)
+        process.fill_in_defaults(self._tool_proxy._tool.tool["inputs"], self._input_dict, fs_access)
         process.visit_class(self._input_dict, ("File", "Directory"), pathToLoc)
         # TODO: Why doesn't fillInDefault fill in locations instead of paths?
         process.normalizeFilesDirs(self._input_dict)
@@ -437,7 +507,7 @@ class JobProxy(object):
                     log.info("skipping simple value...")
             stage_recursive(self._input_dict)
 
-    def _select_resources(self, request):
+    def _select_resources(self, request, runtime_context=None):
         new_request = request.copy()
         new_request["cores"] = "$GALAXY_SLOTS"
         return new_request
@@ -464,6 +534,13 @@ class JobProxy(object):
             return None
 
     @property
+    def stderr(self):
+        if self.is_command_line_job:
+            return self.cwl_job().stderr
+        else:
+            return None
+
+    @property
     def environment(self):
         if self.is_command_line_job:
             return self.cwl_job().environment
@@ -486,16 +563,20 @@ class JobProxy(object):
 
         log.info("Output are %s, status is %s" % (out, process_status))
 
-    def collect_outputs(self, tool_working_directory):
+    def collect_outputs(self, tool_working_directory, rcode):
         if not self.is_command_line_job:
             cwl_job = self.cwl_job()
-            cwl_job.run(
-            )
+            if RuntimeContext is not None:
+                cwl_job.run(
+                    RuntimeContext({})
+                )
+            else:
+                cwl_job.run()
             if not self._ok:
                 raise Exception("Final process state not ok, [%s]" % self._process_status)
             return self._final_output
         else:
-            return self.cwl_job().collect_outputs(tool_working_directory)
+            return self.cwl_job().collect_outputs(tool_working_directory, rcode)
 
     def save_job(self):
         job_file = JobProxy._job_file(self._job_directory)
@@ -541,7 +622,7 @@ class JobProxy(object):
                 pass
 
         if hasattr(cwl_job, "pathmapper"):
-            process.stageFiles(cwl_job.pathmapper, stageFunc, ignoreWritable=True, symLink=False)
+            process.stage_files(cwl_job.pathmapper, stageFunc, ignore_writable=True, symlink=False)
 
         if hasattr(cwl_job, "generatefiles"):
             outdir = os.path.join(self._job_directory, "working")
@@ -550,7 +631,7 @@ class JobProxy(object):
                                                     outdir, outdir, separateDirs=False)
             # TODO: figure out what inplace_update should be.
             inplace_update = getattr(cwl_job, "inplace_update")
-            process.stageFiles(generate_mapper, stageFunc, ignoreWritable=inplace_update, symLink=False)
+            process.stage_files(generate_mapper, stageFunc, ignore_writable=inplace_update, symlink=False)
             from cwltool import job
             job.relink_initialworkdir(generate_mapper, outdir, outdir, inplace_update=inplace_update)
         # else: expression tools do not have a path mapper.
@@ -565,27 +646,48 @@ class WorkflowProxy(object):
     def __init__(self, workflow, workflow_path=None):
         self._workflow = workflow
         self._workflow_path = workflow_path
+        self._step_proxies = None
 
     @property
     def cwl_id(self):
         return self._workflow.tool["id"]
 
-    def tool_references(self):
+    def get_outputs_for_label(self, label):
+        outputs = []
+        for output in self._workflow.tool['outputs']:
+            step, output_name = split_step_references(
+                output["outputSource"],
+                multiple=False,
+                workflow_id=self.cwl_id,
+            )
+            if step == label:
+                output_id = output["id"]
+                if "#" not in self.cwl_id:
+                    _, output_label = output_id.rsplit("#", 1)
+                else:
+                    _, output_label = output_id.rsplit("/", 1)
+
+                outputs.append({
+                    "output_name": output_name,
+                    "label": output_label,
+                })
+        return outputs
+
+    def tool_reference_proxies(self):
         """Fetch tool source definitions for all referenced tools."""
         references = []
         for step in self.step_proxies():
-            references.extend(step.tool_references())
+            references.extend(step.tool_reference_proxies())
         return references
 
-    def tool_reference_proxies(self):
-        return map(lambda tool_object: cwl_tool_object_to_proxy(tool_object), self.tool_references())
-
     def step_proxies(self):
-        proxies = []
-        num_input_steps = len(self._workflow.tool['inputs'])
-        for i, step in enumerate(self._workflow.steps):
-            proxies.append(build_step_proxy(self, step, i + num_input_steps))
-        return proxies
+        if self._step_proxies is None:
+            proxies = []
+            num_input_steps = len(self._workflow.tool['inputs'])
+            for i, step in enumerate(self._workflow.steps):
+                proxies.append(build_step_proxy(self, step, i + num_input_steps))
+            self._step_proxies = proxies
+        return self._step_proxies
 
     @property
     def runnables(self):
@@ -683,12 +785,14 @@ class WorkflowProxy(object):
 
     def cwl_input_to_galaxy_step(self, input, i):
         input_type = input["type"]
+        label = self.jsonld_id_to_label(input["id"])
         input_as_dict = {
             "id": i,
-            "label": self.jsonld_id_to_label(input["id"]),
+            "label": label,
             "position": {"left": 0, "top": 0},
             "annotation": self.cwl_object_to_annotation(input),
             "input_connections": {},  # Should the Galaxy API really require this? - Seems to.
+            "workflow_outputs": self.get_outputs_for_label(label),
         }
 
         if input_type == "File" and "default" not in input:
@@ -779,6 +883,7 @@ class BaseStepProxy(object):
         self._workflow_proxy = workflow_proxy
         self._step = step
         self._index = index
+        self._uuid = str(uuid4())
 
     @property
     def step_class(self):
@@ -806,25 +911,7 @@ class BaseStepProxy(object):
         return label
 
     def galaxy_workflow_outputs_list(self):
-        outputs = []
-        for output in self._workflow_proxy._workflow.tool['outputs']:
-            step, output_name = split_step_references(
-                output["outputSource"],
-                multiple=False,
-                workflow_id=self._workflow_proxy.cwl_id,
-            )
-            if step == self.label:
-                output_id = output["id"]
-                if "#" not in self._workflow_proxy.cwl_id:
-                    _, output_label = output_id.rsplit("#", 1)
-                else:
-                    _, output_label = output_id.rsplit("/", 1)
-
-                outputs.append({
-                    "output_name": output_name,
-                    "label": output_label,
-                })
-        return outputs
+        return self._workflow_proxy.get_outputs_for_label(self.label)
 
     @property
     def cwl_tool_object(self):
@@ -897,20 +984,18 @@ class ToolStepProxy(BaseStepProxy):
 
     @property
     def tool_proxy(self):
-        return cwl_tool_object_to_proxy(self.cwl_tool_object)
+        return _cwl_tool_object_to_proxy(self.cwl_tool_object, self._uuid)
 
-    def tool_references(self):
-        # Return a list so we can handle subworkflows recursively in the future.
-        return [self._step.embedded_tool]
+    def tool_reference_proxies(self):
+        # Return a list so we can handle subworkflows recursively.
+        return [self.tool_proxy]
 
     def to_dict(self, input_connections):
         # We are to the point where we need a content id for this. We got
         # figure that out - short term we can load everything up as an
         # in-memory tool and reference by the JSONLD ID I think. So workflow
         # proxy should force the loading of a tool.
-        tool_proxy = cwl_tool_object_to_proxy(self.tool_references()[0])
-        from galaxy.tools.hash import build_tool_hash
-        tool_hash = build_tool_hash(tool_proxy.to_persistent_representation())
+        self.tool_proxy
 
         # We need to stub out null entries for things getting replaced by
         # connections. This doesn't seem ideal - consider just making Galaxy
@@ -922,7 +1007,7 @@ class ToolStepProxy(BaseStepProxy):
         outputs = self.galaxy_workflow_outputs_list()
         return {
             "id": self._index,
-            "tool_hash": tool_hash,
+            "tool_uuid": self._uuid,  # TODO: make sure this is respectd...
             "label": self.label,
             "position": {"left": 0, "top": 0},
             "type": "tool",
@@ -956,8 +1041,8 @@ class SubworkflowStepProxy(BaseStepProxy):
             "workflow_outputs": outputs,
         }
 
-    def tool_references(self):
-        return self.workflow_proxy.tool_references()
+    def tool_reference_proxies(self):
+        return self.workflow_proxy.tool_reference_proxies()
 
     @property
     def workflow_proxy(self):
@@ -1178,6 +1263,38 @@ class OutputInstance(object):
         self.output_type = output_type
         self.path = path
         self.fields = fields
+
+
+def get_outputs(path):
+    tool_or_workflow = guess_artifact_type(path)
+    if tool_or_workflow == "tool":
+        from galaxy.tools.parser import get_tool_source
+        tool_source = get_tool_source(path)
+        output_datasets, _ = tool_source.parse_outputs(None)
+        outputs = [ToolOutput(o) for o in output_datasets.values()]
+        return outputs
+    else:
+        workflow = workflow_proxy(path, strict_cwl_validation=False)
+        return [CwlWorkflowOutput(label) for label in workflow.output_labels]
+
+
+# Lighter-weight variant of Planemo runnable outputs.
+class CwlWorkflowOutput(object):
+
+    def __init__(self, label):
+        self._label = label
+
+    def get_id(self):
+        return self._label
+
+
+class ToolOutput(object):
+
+    def __init__(self, tool_output):
+        self._tool_output = tool_output
+
+    def get_id(self):
+        return self._tool_output.name
 
 
 __all__ = (

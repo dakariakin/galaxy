@@ -29,13 +29,26 @@ except (ImportError, SyntaxError):
 
 try:
     from cwltool.context import LoadingContext  # Introduced in cwltool 1.0.20180615183820
+    from cwltool.context import RuntimeContext
 except (ImportError, SyntaxError):
     LoadingContext = None
+    RuntimeContext = None
 
 try:
     from cwltool import load_tool
 except (ImportError, SyntaxError):
     load_tool = None
+
+try:
+    from cwltool.load_tool import resolve_and_validate_document
+except ImportError:
+    resolve_and_validate_document = None
+
+try:
+    from cwltool import command_line_tool
+    command_line_tool.ACCEPTLIST_RE = command_line_tool.ACCEPTLIST_EN_RELAXED_RE
+except ImportError:
+    command_line_tool = None
 
 try:
     import shellescape
@@ -68,6 +81,8 @@ def ensure_cwltool_available():
             message += " cwltool is not unavailable."
         elif load_tool is None:
             message += " cwltool.load_tool is unavailable - cwltool version is too old."
+        elif resolve_and_validate_document is None:
+            message += " cwltool.load_tool.resolve_and_validate_document is unavailable - cwltool version is too old."
         if requests is None:
             message += " Library 'requests' unavailable."
         if shellescape is None:
