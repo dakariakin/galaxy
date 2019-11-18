@@ -73,6 +73,14 @@ def handle_outputs(job_directory=None):
     # registered with ToolOutput objects via from_work_dir handling.
     if job_directory is None:
         job_directory = os.path.join(os.getcwd(), os.path.pardir)
+    metadata_directory = os.path.join(job_directory, "metadata")
+    metadata_params_path = os.path.join(metadata_directory, "params.json")
+    try:
+        with open(metadata_params_path, "r") as f:
+            metadata_params = json.load(f)
+    except IOError:
+        raise Exception("Failed to find params.json from metadata directory [%s]" % metadata_directory)
+
     cwl_job_file = os.path.join(job_directory, JOB_JSON_FILE)
     if not os.path.exists(cwl_job_file):
         # Not a CWL job, just continue
@@ -82,7 +90,13 @@ def handle_outputs(job_directory=None):
     # allows us to not need Galaxy's full configuration on job nodes.
     job_proxy = load_job_proxy(job_directory, strict_cwl_validation=False)
     tool_working_directory = os.path.join(job_directory, "working")
-    outputs = job_proxy.collect_outputs(tool_working_directory)
+
+    job_id_tag = metadata_params["job_id_tag"]
+    from galaxy.job_execution.output_collect import default_exit_code_file, read_exit_code_from
+    exit_code_file = default_exit_code_file(".", job_id_tag)
+    tool_exit_code = read_exit_code_from(exit_code_file, job_id_tag)
+
+    outputs = job_proxy.collect_outputs(tool_working_directory, tool_exit_code)
 
     # Build galaxy.json file.
     provided_metadata = {}
