@@ -249,8 +249,8 @@ def test_workflow_embedded_tools_proxy():
         proxy = workflow_proxy(_cwl_tool_path("%s/count-lines2-wf.cwl" % version))
         step_proxies = proxy.step_proxies()
         assert len(step_proxies) == 2
-        print step_proxies[1].requirements
-        print step_proxies[1]._step.embedded_tool.requirements
+        print(step_proxies[1].requirements)
+        print(step_proxies[1]._step.embedded_tool.requirements)
         galaxy_workflow_dict = proxy.to_dict()
 
         assert len(proxy.runnables) == 2
@@ -440,6 +440,7 @@ def test_representation_id():
         uuid = str(uuid4())
         proxy = tool_proxy(tool_object=representation, tool_directory="/", uuid=uuid)
         tool_id = proxy.galaxy_id()
+        # assert tool_id == "my-cool-id", tool_id
         assert tool_id == uuid, tool_id
         id_proxy = tool_proxy_from_persistent_representation(proxy.to_persistent_representation())
         tool_id = id_proxy.galaxy_id()
@@ -563,7 +564,7 @@ class CwlToolObjectTestCase(TestCase, tools_support.UsesApp, tools_support.UsesT
             "file1": {"src": "hda", "id": self.app.security.encode_id(hda.id)}
         }
         inputs = self.tool.inputs_from_dict({"inputs": cwl_inputs, "inputs_representation": "cwl"})
-        print inputs
+        print(inputs)
         print("pre-populated state is %s" % inputs)
         populated_state = {}
         populate_state(self.trans, self.tool.inputs, inputs, populated_state, errors)
@@ -571,8 +572,8 @@ class CwlToolObjectTestCase(TestCase, tools_support.UsesApp, tools_support.UsesT
         from galaxy.tools.parameters.wrapped import WrappedParameters
         wrapped_params = WrappedParameters(galaxy_mock.MockTrans(), self.tool, populated_state)
         input_json = to_cwl_job(self.tool, wrapped_params.params, self.test_directory)
-        print inputs
-        print "to_cwl_job is %s" % input_json
+        print(inputs)
+        print("to_cwl_job is %s" % input_json)
         # assert False
 
     def _new_hda(self):

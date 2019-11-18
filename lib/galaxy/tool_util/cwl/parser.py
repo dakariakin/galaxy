@@ -34,7 +34,7 @@ from .representation import (
     USE_FIELD_TYPES,
     USE_STEP_PARAMETERS,
 )
-from .schema import non_strict_schema_loader, schema_loader
+from .schema import non_strict_non_validating_schema_loader, schema_loader
 from .util import guess_artifact_type, SECONDARY_FILES_EXTRA_PREFIX
 
 log = logging.getLogger(__name__)
@@ -117,7 +117,7 @@ def load_job_proxy(job_directory, strict_cwl_validation=True):
     return cwl_job
 
 
-def _to_cwl_tool_object(tool_path=None, tool_object=None, cwl_tool_object=None, raw_process_reference=None, strict_cwl_validation=True, tool_directory=None, uuid=None):
+def _to_cwl_tool_object(tool_path=None, tool_object=None, cwl_tool_object=None, raw_process_reference=None, strict_cwl_validation=False, tool_directory=None, uuid=None):
     if uuid is None:
         uuid = str(uuid4())
     schema_loader = _schema_loader(strict_cwl_validation)
@@ -198,7 +198,7 @@ def _to_cwl_workflow_object(workflow_path, strict_cwl_validation=None):
 
 
 def _schema_loader(strict_cwl_validation):
-    target_schema_loader = schema_loader if strict_cwl_validation else non_strict_schema_loader
+    target_schema_loader = schema_loader if strict_cwl_validation else non_strict_non_validating_schema_loader
     return target_schema_loader
 
 
@@ -266,6 +266,8 @@ class ToolProxy(object):
         if not tool_id:
             return self._uuid
         assert tool_id
+        if tool_id.startswith("#"):
+            tool_id = tool_id[1:]
         return tool_id
 
     @abstractmethod
@@ -469,7 +471,13 @@ class JobProxy(object):
             if "location" not in p and "path" in p:
                 p["location"] = p["path"]
                 del p["path"]
-        process.fillInDefaults(self._tool_proxy._tool.tool["inputs"], self._input_dict)
+
+        runtime_context = RuntimeContext({})
+        from cwltool.stdfsaccess import StdFsAccess
+        from cwltool.context import getdefault
+        make_fs_access = getdefault(runtime_context.make_fs_access, StdFsAccess)
+        fs_access = make_fs_access(runtime_context.basedir)
+        process.fill_in_defaults(self._tool_proxy._tool.tool["inputs"], self._input_dict, fs_access)
         process.visit_class(self._input_dict, ("File", "Directory"), pathToLoc)
         # TODO: Why doesn't fillInDefault fill in locations instead of paths?
         process.normalizeFilesDirs(self._input_dict)
