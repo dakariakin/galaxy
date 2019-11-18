@@ -270,7 +270,7 @@ class CwlToolSource(ToolSource):
 
 def strip_namespace(ordered_dict, namespace):
     if isinstance(ordered_dict, dict):
-        value = odict()
+        value = OrderedDict()
         for k, v in ordered_dict.items():
             if k.startswith(namespace):
                 k = k[len(namespace):]
@@ -285,7 +285,7 @@ class CwlPageSource(PageSource):
 
     def __init__(self, tool_proxy):
         cwl_instances = tool_proxy.input_instances()
-        self._input_list = map(self._to_input_source, cwl_instances)
+        self._input_list = list(map(self._to_input_source, cwl_instances))
 
     def _to_input_source(self, input_instance):
         as_dict = input_instance.to_dict()
