@@ -8,17 +8,19 @@ from .cwltool_deps import (
     ensure_cwltool_available,
     load_tool,
     LoadingContext,
+    resolve_and_validate_document,
     workflow,
 )
 
-RawProcessReference = namedtuple("RawProcessReference", ["process_object", "uri"])
-ProcessDefinition = namedtuple("ProcessDefinition", ["process_object", "metadata", "document_loader", "avsc_names", "raw_process_reference"])
+RawProcessReference = namedtuple("RawProcessReference", ["loading_context", "process_object", "uri"])
+ResolvedProcessDefinition = namedtuple("ResolvedProcessDefinition", ["loading_context", "uri", "raw_process_reference"])
 
 
 class SchemaLoader(object):
 
-    def __init__(self, strict=True):
+    def __init__(self, strict=True, validate=True):
         self._strict = strict
+        self._validate = validate
 
     @property
     def raw_document_loader(self):
@@ -26,37 +28,45 @@ class SchemaLoader(object):
         from cwltool.load_tool import default_loader
         return default_loader(None)
 
-    def raw_process_reference(self, path):
-        uri = "file://" + os.path.abspath(path)
-        fileuri, _ = urldefrag(uri)
-        process_object = self.raw_document_loader.fetch(fileuri)
-        return RawProcessReference(process_object, uri)
+    def loading_context(self):
+        loading_context = LoadingContext()
+        loading_context.strict = self._strict
+        loading_context.do_validate = self._validate
+        loading_context.loader = self.raw_document_loader
+        loading_context.do_update = True
+        return loading_context
 
-    def raw_process_reference_for_object(self, object, uri=None):
+    def raw_process_reference(self, path, loading_context=None):
+        uri = "file://" + os.path.abspath(path)
+        loading_context = loading_context or self.loading_context()
+        loading_context, process_object, uri = load_tool.fetch_document(uri, loadingContext=loading_context)
+        return RawProcessReference(loading_context, process_object, uri)
+
+    def raw_process_reference_for_object(self, process_object, uri=None, loading_context=None):
         if uri is None:
             uri = "galaxy://"
-        return RawProcessReference(object, uri)
+        loading_context = loading_context or self.loading_context()
+        process_object["id"] = uri
+        loading_context, process_object, uri = load_tool.fetch_document(process_object, loadingContext=loading_context)
+        return RawProcessReference(loading_context, process_object, uri)
 
-    def process_definition(self, raw_reference):
-        document_loader, avsc_names, process_object, metadata, uri = load_tool.validate_document(
-            self.raw_document_loader,
-            raw_reference.process_object,
-            raw_reference.uri,
-            strict=False,
+    def process_definition(self, raw_process_reference):
+        assert raw_process_reference.loading_context is not None, "No loading context found for raw_process_reference"
+        loading_context, uri = resolve_and_validate_document(
+            raw_process_reference.loading_context,
+            raw_process_reference.process_object,
+            raw_process_reference.uri,
         )
-        process_def = ProcessDefinition(
-            process_object,
-            metadata,
-            document_loader,
-            avsc_names,
-            raw_reference,
+        process_def = ResolvedProcessDefinition(
+            loading_context,
+            uri,
+            raw_process_reference,
         )
         return process_def
 
     def tool(self, **kwds):
-        # cwl.workflow.defaultMakeTool() method was renamed to default_make_tool() in
-        # https://github.com/common-workflow-language/cwltool/commit/886a6ac41c685f20d39e352f9c657e59f3312265
         default_make_tool = workflow.default_make_tool
+
         process_definition = kwds.get("process_definition", None)
         if process_definition is None:
             raw_process_reference = kwds.get("raw_process_reference", None)
@@ -64,19 +74,13 @@ class SchemaLoader(object):
                 raw_process_reference = self.raw_process_reference(kwds["path"])
             process_definition = self.process_definition(raw_process_reference)
 
-        args = {"strict": self._strict, "do_validate": False}
-        make_tool = kwds.get("make_tool", default_make_tool)
-        args["construct_tool_object"] = make_tool
-        loading_context = LoadingContext(args)
         tool = load_tool.make_tool(
-            process_definition.document_loader,
-            process_definition.avsc_names,
-            process_definition.metadata,
-            process_definition.raw_process_reference.uri,
-            loading_context,
+            process_definition.uri,
+            process_definition.loading_context,
         )
         return tool
 
 
 schema_loader = SchemaLoader()
 non_strict_schema_loader = SchemaLoader(strict=False)
+non_strict_non_validating_schema_loader = SchemaLoader(strict=False, validate=False)
