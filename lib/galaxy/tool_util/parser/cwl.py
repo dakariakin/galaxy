@@ -270,7 +270,7 @@ class CwlToolSource(ToolSource):
 
 def strip_namespace(ordered_dict, namespace):
     if isinstance(ordered_dict, dict):
-        value = odict()
+        value = OrderedDict()
         for k, v in ordered_dict.items():
             if k.startswith(namespace):
                 k = k[len(namespace):]

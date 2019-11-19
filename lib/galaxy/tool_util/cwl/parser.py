@@ -17,7 +17,7 @@ from uuid import uuid4
 import six
 
 from galaxy.exceptions import MessageException
-from galaxy.util import listify, safe_makedirs
+from galaxy.util import listify, safe_makedirs, unicodify
 from galaxy.util.bunch import Bunch
 from .cwltool_deps import (
     beta_relaxed_fmt_check,
@@ -301,7 +301,7 @@ class ToolProxy(object):
             persisted_obj = self._raw_process_reference
         return {
             "class": self._class,
-            "pickle": base64.b64encode(pickle.dumps(persisted_obj, pickle.HIGHEST_PROTOCOL)),
+            "pickle": unicodify(base64.b64encode(pickle.dumps(persisted_obj, pickle.HIGHEST_PROTOCOL))),
             "uuid": self._uuid,
         }
 
@@ -580,7 +580,7 @@ class JobProxy(object):
 
         log.info("Output are %s, status is %s" % (out, process_status))
 
-    def collect_outputs(self, tool_working_directory):
+    def collect_outputs(self, tool_working_directory, rcode):
         if not self.is_command_line_job:
             cwl_job = self.cwl_job()
             if RuntimeContext is not None:
@@ -593,7 +593,7 @@ class JobProxy(object):
                 raise Exception("Final process state not ok, [%s]" % self._process_status)
             return self._final_output
         else:
-            return self.cwl_job().collect_outputs(tool_working_directory)
+            return self.cwl_job().collect_outputs(tool_working_directory, rcode)
 
     def save_job(self):
         job_file = JobProxy._job_file(self._job_directory)
@@ -639,7 +639,7 @@ class JobProxy(object):
                 pass
 
         if hasattr(cwl_job, "pathmapper"):
-            process.stageFiles(cwl_job.pathmapper, stageFunc, ignoreWritable=True, symLink=False)
+            process.stage_files(cwl_job.pathmapper, stageFunc, ignore_writable=True, symlink=False)
 
         if hasattr(cwl_job, "generatefiles"):
             outdir = os.path.join(self._job_directory, "working")
@@ -648,7 +648,7 @@ class JobProxy(object):
                                                     outdir, outdir, separateDirs=False)
             # TODO: figure out what inplace_update should be.
             inplace_update = getattr(cwl_job, "inplace_update")
-            process.stageFiles(generate_mapper, stageFunc, ignoreWritable=inplace_update, symLink=False)
+            process.stage_files(generate_mapper, stageFunc, ignore_writable=inplace_update, symlink=False)
             from cwltool import job
             job.relink_initialworkdir(generate_mapper, outdir, outdir, inplace_update=inplace_update)
         # else: expression tools do not have a path mapper.

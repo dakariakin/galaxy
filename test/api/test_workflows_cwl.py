@@ -3,11 +3,11 @@ import json
 import os
 import re
 
+from galaxy_test.api.test_workflows import BaseWorkflowsApiTestCase
 from galaxy_test.base.populators import (
     CWL_TOOL_DIRECTORY,
     CwlPopulator,
 )
-from .test_workflows import BaseWorkflowsApiTestCase
 
 
 class BaseCwlWorklfowTestCase(BaseWorkflowsApiTestCase):
