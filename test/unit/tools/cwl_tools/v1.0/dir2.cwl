@@ -1,9 +1,12 @@
 class: CommandLineTool
 cwlVersion: v1.0
+requirements:
+  ShellCommandRequirement: {}
 hints:
   DockerRequirement:
     dockerPull: debian:stretch-slim
-  ShellCommandRequirement: {}
+  ResourceRequirement:
+    ramMin: 8
 inputs:
   indir: Directory
 outputs:
