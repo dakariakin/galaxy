@@ -16,6 +16,8 @@ from six import (
     python_2_unicode_compatible
 )
 
+from galaxy.util import unicodify
+
 STORE_SECONDARY_FILES_WITH_BASENAME = True
 SECONDARY_FILES_EXTRA_PREFIX = "__secondary_files__"
 SECONDARY_FILES_INDEX_PATH = "__secondary_files_index.json"
@@ -186,9 +188,9 @@ def galactic_job_json(
                 assert secondary_file_path, "Invalid secondaryFile entry found [%s]" % secondary_file
                 full_secondary_file_path = os.path.join(test_data_directory, secondary_file_path)
                 basename = secondary_file.get("basename") or os.path.basename(secondary_file_path)
-                order.append(basename)
+                order.append(unicodify(basename))
                 tf.add(full_secondary_file_path, os.path.join(SECONDARY_FILES_EXTRA_PREFIX, basename))
-            tmp_index = tempfile.NamedTemporaryFile(delete=False)
+            tmp_index = tempfile.NamedTemporaryFile(delete=False, mode="w")
             json.dump(index_contents, tmp_index)
             tmp_index.close()
             tf.add(tmp_index.name, SECONDARY_FILES_INDEX_PATH)
