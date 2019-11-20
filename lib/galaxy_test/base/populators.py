@@ -217,7 +217,7 @@ class CwlRun(object):
                 return self.dataset_populator.get_history_collection_details(self.history_id, content_id=content_id, wait=False)
 
         def get_dataset(dataset_details, filename=None):
-            content = self.dataset_populator.get_history_dataset_content(self.history_id, dataset_id=dataset_details["id"], filename=filename)
+            content = self.dataset_populator.get_history_dataset_content(self.history_id, dataset_id=dataset_details["id"], type='content', filename=filename)
             if filename is None:
                 basename = dataset_details.get("created_from_basename")
                 if not basename:
