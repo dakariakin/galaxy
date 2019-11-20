@@ -1,6 +1,7 @@
 """Manage the files in this directory."""
 import os
-import urllib2
+
+from six.moves.urllib.request import urlopen
 
 SCHEMAS_URL = "https://raw.githubusercontent.com/common-workflow-language/common-workflow-language/master/"
 
