@@ -459,7 +459,7 @@ def output_to_cwl_json(
                             secondary_files.append(ec_properties)
 
             else:
-                basename = output_metadata.get("cwl_file_name")
+                basename = output_metadata.get("created_from_basename")
                 if not basename:
                     basename = output_metadata.get("name")
 
