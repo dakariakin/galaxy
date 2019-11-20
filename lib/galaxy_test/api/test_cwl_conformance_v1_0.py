@@ -4188,7 +4188,7 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.0""", """Test an anonymous enum inside an array inside a record""")
 
-    def test_conformance_v1_0_schema-def_anonymous_enum_in_array(self):
+    def test_conformance_v1_0_schema_def_anonymous_enum_in_array(self):
         """Test an anonymous enum inside an array inside a record, SchemaDefRequirement
 
         Generated from::

@@ -167,7 +167,7 @@ def main():
             'version': version,
             'doc': conformance_test['doc'],
             'cwl_test_def': cwl_test_def,
-            'label': label,
+            'label': label.replace("-", "_"),
         }
         tests = tests + TEST_TEMPLATE.safe_substitute(template_kwargs)
         if label in GREEN_TESTS:
