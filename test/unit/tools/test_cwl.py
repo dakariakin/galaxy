@@ -52,9 +52,11 @@ def test_tool_source_records():
 def test_serialize_deserialize():
     path = _cwl_tool_path("v1.0/cat5-tool.cwl")
     tool = tool_proxy(path)
+    expected_uuid = tool._uuid
     print(tool._tool.tool)
     rep = tool.to_persistent_representation()
     tool = tool_proxy_from_persistent_representation(rep)
+    assert tool._uuid == expected_uuid
     print(tool)
     tool.job_proxy({"file1": "/moo"}, {})
     print(tool._tool.tool)
@@ -65,6 +67,7 @@ def test_serialize_deserialize():
         import json
         tool_object = json.loads(json.dumps(tool_object))
     tool = _to_cwl_tool_object(tool_object=tool_object)
+    assert tool._uuid == expected_uuid
 
 
 def test_job_proxy():
@@ -445,6 +448,7 @@ def test_representation_id():
         id_proxy = tool_proxy_from_persistent_representation(proxy.to_persistent_representation())
         tool_id = id_proxy.galaxy_id()
         assert tool_id == uuid, tool_id
+        assert proxy._uuid == id_proxy._uuid
         # assert tool_id == "my-cool-id", tool_id
 
 
