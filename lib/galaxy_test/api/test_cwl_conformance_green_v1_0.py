@@ -1865,4 +1865,3 @@ inputs are not present in the input object used to run the tool.
         self.cwl_populator.run_conformance_test("""v1.0""", """Test that parameters that don't appear in the `run` process
 inputs are not present in the input object used to run the tool.
 """)
-
