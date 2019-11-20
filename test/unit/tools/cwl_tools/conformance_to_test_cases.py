@@ -5,7 +5,7 @@ import sys
 import yaml
 
 THIS_DIRECTORY = os.path.dirname(os.path.normpath(__file__))
-API_TEST_DIRECTORY = os.path.join(THIS_DIRECTORY, "..", "..", "..", "api")
+API_TEST_DIRECTORY = os.path.join(THIS_DIRECTORY, "..", "..", "..", "..", "lib", "galaxy_test", "api")
 
 TEST_FILE_TEMPLATE = string.Template('''
 """Test CWL conformance for version $version."""
