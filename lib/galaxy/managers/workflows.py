@@ -311,6 +311,7 @@ class WorkflowContentsManager(UsesAnnotations):
             for tool_reference_proxy in tool_reference_proxies:
                 # TODO: Namespace IDS in workflows.
                 representation = tool_reference_proxy.to_persistent_representation()
+                log.info("\n\n\n\n\n\ngoing to create_tool from a rep.... " % representation)
                 self.app.dynamic_tool_manager.create_tool(trans, {
                     "representation": representation,
                 }, allow_load=True)

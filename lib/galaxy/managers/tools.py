@@ -108,7 +108,9 @@ class DynamicToolManager(ModelManager):
             raise DuplicatedIdentifierException(existing_tool.id)
         elif existing_tool:
             dynamic_tool = existing_tool
+            log.info("IN HERE!!!!!!!!\n\n\n\n\n\n")
         else:
+            log.info("boooo!!!!!! uuid %s" % uuid)
             dynamic_tool = self.create(
                 tool_format=tool_format,
                 tool_id=tool_id,
