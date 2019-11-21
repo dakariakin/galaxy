@@ -66,7 +66,7 @@ def test_serialize_deserialize():
         tool_object = yaml.load(f)
         import json
         tool_object = json.loads(json.dumps(tool_object))
-    tool = _to_cwl_tool_object(tool_object=tool_object)
+    tool = _to_cwl_tool_object(tool_object=tool_object, uuid=expected_uuid)
     assert tool._uuid == expected_uuid
 
 
