@@ -315,7 +315,8 @@ class ToolProxy(object):
         if "uuid" not in as_object:
             raise Exception("Failed to deserialize tool proxy from JSON object - no uuid found.")
         to_unpickle = base64.b64decode(as_object["pickle"])
-        return pickle.loads(to_unpickle)
+        loaded_object = pickle.loads(to_unpickle)
+        return loaded_object
 
 
 class CommandLineToolProxy(ToolProxy):
@@ -864,8 +865,10 @@ def split_step_references(step_references, workflow_id=None, multiple=True):
                 sep_on = "/"
             else:
                 sep_on = "#"
-            assert step_reference.startswith(workflow_id + sep_on)
-            step_reference = step_reference[len(workflow_id + sep_on):]
+            expected_prefix = workflow_id + sep_on
+            if not step_reference.startswith(expected_prefix):
+                raise AssertionError("step_reference [%s] doesn't start with %s" % (step_reference, expected_prefix))
+            step_reference = step_reference[len(expected_prefix):]
 
         # Now just grab the step name and input/output name.
         assert "#" not in step_reference
@@ -902,6 +905,7 @@ class BaseStepProxy(object):
         self._step = step
         self._index = index
         self._uuid = str(uuid4())
+        self._input_proxies = None
 
     @property
     def step_class(self):
@@ -937,9 +941,13 @@ class BaseStepProxy(object):
 
     @property
     def input_proxies(self):
-        cwl_inputs = self._step.tool["inputs"]
-        for cwl_input in cwl_inputs:
-            yield InputProxy(self, cwl_input)
+        if self._input_proxies is None:
+            input_proxies = []
+            cwl_inputs = self._step.tool["inputs"]
+            for cwl_input in cwl_inputs:
+                input_proxies.append(InputProxy(self, cwl_input))
+            self._input_proxies = input_proxies
+        return self._input_proxies
 
     def inputs_to_dicts(self):
         inputs_as_dicts = []
@@ -1000,21 +1008,26 @@ class InputProxy(object):
 
 class ToolStepProxy(BaseStepProxy):
 
+    def __init__(self, workflow_proxy, step, index):
+        super(ToolStepProxy, self).__init__(workflow_proxy, step, index)
+        log.info("\n\n\n\n create step proxy for %s" % self._uuid)
+        self._tool_proxy = None
+
     @property
     def tool_proxy(self):
-        return _cwl_tool_object_to_proxy(self.cwl_tool_object, self._uuid)
+        # Neeeds to be cached so UUID that is loaded matches UUID generated with to_dict.
+        if self._tool_proxy is None:
+            log.info("creating tool proxy...")
+            self._tool_proxy = _cwl_tool_object_to_proxy(self.cwl_tool_object, uuid=str(uuid4()))
+        else:
+            log.info("using cached tool proxy...")
+        return self._tool_proxy
 
     def tool_reference_proxies(self):
         # Return a list so we can handle subworkflows recursively.
         return [self.tool_proxy]
 
     def to_dict(self, input_connections):
-        # We are to the point where we need a content id for this. We got
-        # figure that out - short term we can load everything up as an
-        # in-memory tool and reference by the JSONLD ID I think. So workflow
-        # proxy should force the loading of a tool.
-        self.tool_proxy
-
         # We need to stub out null entries for things getting replaced by
         # connections. This doesn't seem ideal - consider just making Galaxy
         # handle this.
@@ -1025,7 +1038,7 @@ class ToolStepProxy(BaseStepProxy):
         outputs = self.galaxy_workflow_outputs_list()
         return {
             "id": self._index,
-            "tool_uuid": self._uuid,  # TODO: make sure this is respectd...
+            "tool_uuid": self.tool_proxy._uuid,  # TODO: make sure this is respected...
             "label": self.label,
             "position": {"left": 0, "top": 0},
             "type": "tool",
@@ -1038,10 +1051,15 @@ class ToolStepProxy(BaseStepProxy):
 
 class SubworkflowStepProxy(BaseStepProxy):
 
+    def __init__(self, workflow_proxy, step, index):
+        super(SubworkflowStepProxy, self).__init__(workflow_proxy, step, index)
+        log.info("\n\n\n\n create step proxy for %s" % self._uuid)
+        self._subworkflow_proxy = None
+
     def to_dict(self, input_connections):
         outputs = self.galaxy_workflow_outputs_list()
         for key, input_connection_list in input_connections.items():
-            input_subworkflow_step_id = self.workflow_proxy.find_inputs_step_index(
+            input_subworkflow_step_id = self.subworkflow_proxy.find_inputs_step_index(
                 key
             )
             for input_connection in input_connection_list:
@@ -1052,19 +1070,21 @@ class SubworkflowStepProxy(BaseStepProxy):
             "label": self.label,
             "position": {"left": 0, "top": 0},
             "type": "subworkflow",
-            "subworkflow": self.workflow_proxy.to_dict(),
-            "annotation": self._workflow_proxy.cwl_object_to_annotation(self._step.tool),
+            "subworkflow": self.subworkflow_proxy.to_dict(),
+            "annotation": self.subworkflow_proxy.cwl_object_to_annotation(self._step.tool),
             "input_connections": input_connections,
             "inputs": self.inputs_to_dicts(),
             "workflow_outputs": outputs,
         }
 
     def tool_reference_proxies(self):
-        return self.workflow_proxy.tool_reference_proxies()
+        return self.subworkflow_proxy.tool_reference_proxies()
 
     @property
-    def workflow_proxy(self):
-        return WorkflowProxy(self.cwl_tool_object)
+    def subworkflow_proxy(self):
+        if self._subworkflow_proxy is None:
+            self._subworkflow_proxy = WorkflowProxy(self.cwl_tool_object)
+        return self._subworkflow_proxy
 
 
 def remove_pickle_problems(obj):

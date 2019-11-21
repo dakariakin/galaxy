@@ -107,6 +107,7 @@ class DynamicToolManager(ModelManager):
         if existing_tool is not None and not allow_load:
             raise DuplicatedIdentifierException(existing_tool.id)
         elif existing_tool:
+            assert existing_tool.uuid == uuid
             dynamic_tool = existing_tool
             log.info("IN HERE!!!!!!!!\n\n\n\n\n\n")
         else:
@@ -120,7 +121,7 @@ class DynamicToolManager(ModelManager):
                 uuid=uuid,
                 value=value,
             )
-            self.app.toolbox.load_dynamic_tool(dynamic_tool)
+        self.app.toolbox.load_dynamic_tool(dynamic_tool)
         return dynamic_tool
 
     def list_tools(self, active=True):
