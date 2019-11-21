@@ -41,7 +41,7 @@ export default Backbone.Model.extend({
         upload: "_fieldUpload",
         rules: "_fieldRulesEdit",
         genomespacefile: "_fieldGenomeSpace",
-        data_dialog: "_fieldDialog"
+        data_dialog: "_fieldDialog",
         field: "_fieldField",
     },
 
