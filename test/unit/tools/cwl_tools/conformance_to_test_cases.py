@@ -152,6 +152,7 @@ def main():
 
     tests = ""
     green_tests = ""
+    red_tests = ""
     required_tests = ""
 
     for i, conformance_test in enumerate(conformance_tests):
@@ -172,6 +173,8 @@ def main():
         tests = tests + TEST_TEMPLATE.safe_substitute(template_kwargs)
         if label in GREEN_TESTS:
             green_tests = green_tests + TEST_TEMPLATE.safe_substitute(template_kwargs)
+        else:
+            red_tests = red_tests + TEST_TEMPLATE.safe_substitute(template_kwargs)
         if "required" in tags:
             required_tests = required_tests + TEST_TEMPLATE.safe_substitute(template_kwargs)
 
@@ -185,6 +188,11 @@ def main():
         'tests': green_tests
     })
 
+    red_test_file_contents = TEST_FILE_TEMPLATE.safe_substitute({
+        'version_simple': version_simple,
+        'tests': red_tests
+    })
+
     required_test_file_contents = TEST_FILE_TEMPLATE.safe_substitute({
         'version_simple': version_simple,
         'tests': required_tests
@@ -194,6 +202,8 @@ def main():
         f.write(test_file_contents)
     with open(os.path.join(API_TEST_DIRECTORY, "test_cwl_conformance_green_%s.py" % version_simple), "w") as f:
         f.write(green_test_file_contents)
+    with open(os.path.join(API_TEST_DIRECTORY, "test_cwl_conformance_red_%s.py" % version_simple), "w") as f:
+        f.write(red_test_file_contents)
     with open(os.path.join(API_TEST_DIRECTORY, "test_cwl_conformance_required_%s.py" % version_simple), "w") as f:
         f.write(required_test_file_contents)
 
