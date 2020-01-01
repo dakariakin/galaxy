@@ -44,7 +44,7 @@ cmd2==0.8.9
 configparser==4.0.2 ; python_version < '3.2'
 contextlib2==0.6.0.post1 ; python_version < '3.5'
 cryptography==2.8
-cwltool==1.0.20180721142728
+cwltool==1.0.20191022103248
 debtcollector==1.22.0
 decorator==4.4.1
 deprecated==1.2.7
@@ -165,7 +165,7 @@ ruamel.ordereddict==0.4.14 ; platform_python_implementation == 'CPython' and pyt
 ruamel.yaml==0.15.100
 s3transfer==0.2.1
 scandir==1.10.0 ; python_version < '3.5'
-schema-salad==2.7.20181126142424
+schema-salad==4.5.20191023134839
 setuptools-scm==3.3.3
 shellescape==3.4.1
 simplejson==3.17.0
@@ -194,3 +194,6 @@ webob==1.8.5
 whoosh==2.7.4
 wrapt==1.11.2
 zipp==0.6.0
+# For CWL support.
+cwltool==1.0.20191022103248
+cwltest==1.0.20170809112706  # TODO: only required for testing...

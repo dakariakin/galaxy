@@ -13,6 +13,9 @@ from galaxy.util import safe_makedirs, string_as_bool
 from galaxy.util.bunch import Bunch
 from .util import set_basename_and_derived_properties
 
+from galaxy.model.none_like import NoneDataset
+from galaxy.util.object_wrapper import SafeStringWrapper
+
 log = logging.getLogger(__name__)
 
 NOT_PRESENT = object()
@@ -117,7 +120,8 @@ def type_descriptions_for_field_types(field_types):
             type_representation_names_for_field_type = CWL_TYPE_TO_REPRESENTATIONS.get(field_type)
         except TypeError:
             raise Exception("Failed to convert field_type %s" % field_type)
-        assert type_representation_names_for_field_type is not None, field_type
+        if type_representation_names_for_field_type is None:
+            raise Exception("Failed to convert type %s" % field_type)
         type_representation_names.update(type_representation_names_for_field_type)
     type_representations = []
     for type_representation in TYPE_REPRESENTATIONS:
@@ -157,16 +161,41 @@ def dataset_wrapper_to_file_json(inputs_dir, dataset_wrapper):
         path = new_input_path
 
     raw_file_object["location"] = path
-    raw_file_object["size"] = int(dataset_wrapper.get_size())
-    set_basename_and_derived_properties(raw_file_object, str(dataset_wrapper.cwl_filename or dataset_wrapper.name))
+
+    if not isinstance(dataset_wrapper.unsanitized, NoneDataset):
+        raw_file_object["size"] = int(dataset_wrapper.get_size())
+
+    set_basename_and_derived_properties(raw_file_object, str(dataset_wrapper.created_from_basename or dataset_wrapper.name))
     return raw_file_object
 
 
 def dataset_wrapper_to_directory_json(inputs_dir, dataset_wrapper):
     assert dataset_wrapper.ext == "directory"
 
-    return {"location": dataset_wrapper.extra_files_path,
-            "class": "Directory"}
+    # get directory name
+    archive_name = str(dataset_wrapper.created_from_basename or dataset_wrapper.name)
+    nameroot, nameext = os.path.splitext(archive_name)
+    directory_name = nameroot # assume archive file name contains the directory name
+
+    # get archive location
+    #
+    # note
+    #   when user uploads a tar file with 'directory' type,
+    #   tar file location ends up in dataset_wrapper.unsanitized.file_name
+    #
+    try:
+        archive_location = dataset_wrapper.unsanitized.file_name
+    except:
+        archive_location = None
+
+    directory_json = {"location": dataset_wrapper.extra_files_path,
+                      "class": "Directory",
+                      "name": directory_name,
+                      "archive_location": archive_location,
+                      "archive_nameext": nameext,
+                      "archive_nameroot": nameroot}
+
+    return directory_json
 
 
 def collection_wrapper_to_array(inputs_dir, wrapped_value):
