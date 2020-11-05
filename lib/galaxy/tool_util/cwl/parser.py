@@ -80,8 +80,6 @@ def tool_proxy(tool_path=None, tool_object=None, strict_cwl_validation=True, too
     grab relevant data.
     """
     ensure_cwltool_available()
-    # if uuid is None:
-    #    raise Exception("tool_proxy must be called with non-None uuid")
     tool = _to_cwl_tool_object(
         tool_path=tool_path,
         tool_object=tool_object,
@@ -611,7 +609,7 @@ class JobProxy:
 
     def _output_extra_files_dir(self, output_name):
         output_id = self.output_id(output_name)
-        return os.path.join(self._job_directory, "dataset_%s_files" % output_id)
+        return os.path.join(self._job_directory, "outputs", "dataset_%s_files" % output_id)
 
     def output_id(self, output_name):
         output_id = self._output_dict[output_name]["id"]
@@ -830,13 +828,15 @@ class WorkflowProxy:
                 # to be field - simpler types could be simpler inputs.
                 tool_state = {}
                 tool_state["parameter_type"] = "field"
+                default_set = "default" in input
                 default_value = input.get("default")
-                optional = False
+                optional = default_set
                 if isinstance(input_type, list) and "null" in input_type:
                     optional = True
                 if not optional and isinstance(input_type, dict) and "type" in input_type:
                     assert False
-                tool_state["default_value"] = {"src": "json", "value": default_value}
+                if default_set:
+                    tool_state["default"] = {"src": "json", "value": default_value}
                 tool_state["optional"] = optional
                 input_as_dict["tool_state"] = tool_state
             else:
