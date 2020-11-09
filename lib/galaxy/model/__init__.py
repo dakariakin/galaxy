@@ -4959,6 +4959,7 @@ class WorkflowStep(RepresentById):
         self.position = WorkflowStep.DEFAULT_POSITION
         self.inputs = []
         self.config = None
+        self.when_expression = None
         self.label = None
         self.uuid = uuid4()
         self.workflow_outputs = []

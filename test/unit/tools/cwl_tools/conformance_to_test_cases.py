@@ -45,6 +45,14 @@ RED_TESTS = {
     "valuefrom_ignored_null": "wrong output, vf-concat.cwl with empty.json",
     "valuefrom_wf_step": "ValidationException: [Errno 2] No such file or directory: '/Users/john/workspace/galaxy/step_input:/1'",
     "valuefrom_wf_step_multiple": "basic.py problem ValueError: invalid literal for int() with base 10: ''",
+    "pass_through_required_false_when": "outputSource dependending on multiple steps unimplemented",
+    "pass_through_required_true_when": "outputSource dependending on multiple steps unimplemented",
+    "first_non_null_first_non_null": "same above",
+    "first_non_null_all_null": "same above",
+    "first_non_null_second_non_null": "same above",
+    "pass_through_required_the_only_non_null": "same above",
+    "pass_through_required_fail": "same above",
+    "all_non_null_multi_with_non_array_output": "same above",
 }
 
 # Regressions -- hopefully not needed anymore
@@ -448,6 +456,14 @@ GREEN_TESTS = {
         "timelimit_from_expression",
         "timelimit_from_expression_wf",
         "timelimit_invalid",
+        "direct_optional_null_result",
+        "direct_optional_nonnull_result",
+        "direct_required",
+        "conditionals_non_boolean_fail",
+        "direct_optional_null_result_nojs",
+        "direct_optional_nonnull_result_nojs",
+        "direct_required_nojs",
+        "conditionals_non_boolean_fail_nojs",
     ],
 }
 

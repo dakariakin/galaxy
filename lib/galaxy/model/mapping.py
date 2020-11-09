@@ -1016,6 +1016,7 @@ model.WorkflowStep.table = Table(
     Column("tool_errors", JSONType),
     Column("position", JSONType),
     Column("config", JSONType),
+    Column("when_expression", JSONType),
     Column("order_index", Integer),
     Column("uuid", UUIDType),
     # Column( "input_connections", JSONType ),

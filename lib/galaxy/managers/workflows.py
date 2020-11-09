@@ -1336,6 +1336,9 @@ class WorkflowContentsManager(UsesAnnotations):
                     step_input.default_value = default
                     step_input.default_value_set = True
 
+        if "when" in step_dict:
+            step.when_expression = step_dict["when"]
+
         return module, step
 
     def __load_subworkflow_from_step_dict(self, trans, step_dict, subworkflow_id_map, **kwds):

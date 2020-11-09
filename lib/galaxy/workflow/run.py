@@ -197,6 +197,9 @@ class WorkflowInvoker:
                     self.progress.mark_step_outputs_delayed(step, why="Not all jobs scheduled for state.")
                 else:
                     workflow_invocation_step.state = 'scheduled'
+            except modules.SkipWorkflowStepEvaluation as we:
+                log.info("Skipping workflow step!")
+                self.progress.mark_step_outputs_skipped(workflow_invocation_step, we.outputs)
             except modules.DelayedWorkflowEvaluation as de:
                 step_delayed = delayed_steps = True
                 self.progress.mark_step_outputs_delayed(step, why=de.why)
@@ -271,6 +274,7 @@ class WorkflowInvoker:
 
 
 STEP_OUTPUT_DELAYED = object()
+STEP_OUTPUT_SKIPPED = object()
 
 
 class WorkflowProgress:
@@ -608,6 +612,13 @@ class WorkflowProgress:
 
     def _record_workflow_output(self, step, workflow_output, output):
         self.workflow_invocation.add_output(workflow_output, step, output)
+
+    def mark_step_outputs_skipped(self, invocation_step, outputs):
+        # TODO: Mark the step skipped in the database somehow?
+        null_outputs = {}
+        for output in outputs:
+            null_outputs[output['name']] = None
+        self.set_step_outputs(invocation_step, null_outputs)
 
     def mark_step_outputs_delayed(self, step, why=None):
         if why:
