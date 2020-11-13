@@ -1,11 +1,18 @@
 """Test CWL conformance for version v1.1."""
 
+import pytest
+
 from ..test_workflows_cwl import BaseCwlWorklfowTestCase
 
 
 class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
     """Test case mapping to CWL conformance tests for version v1.1."""
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_cl_basic_generation(self):
         """General test of command line generation
 
@@ -34,6 +41,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """General test of command line generation""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_nested_prefixes_arrays(self):
         """Test nested prefixes with arrays
 
@@ -59,6 +71,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test nested prefixes with arrays""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.schema_def
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_nested_cl_bindings(self):
         """Test nested command line bindings
 
@@ -100,6 +117,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test nested command line bindings""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_cl_optional_inputs_missing(self):
         """Test command line with optional input (missing)
 
@@ -119,6 +141,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test command line with optional input (missing)""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_cl_optional_bindings_provided(self):
         """Test command line with optional input (provided)
 
@@ -139,6 +166,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test command line with optional input (provided)""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.initial_work_dir
+    @pytest.mark.inline_javascript
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_initworkdir_expreng_requirements(self):
         """Test InitialWorkDirRequirement ExpressionEngineRequirement.engineConfig feature
 
@@ -161,6 +194,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test InitialWorkDirRequirement ExpressionEngineRequirement.engineConfig feature""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.docker
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_stdout_redirect_docker(self):
         """Test command execution in Docker with stdout redirection
 
@@ -182,6 +220,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test command execution in Docker with stdout redirection""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.docker
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_stdout_redirect_shortcut_docker(self):
         """Test command execution in Docker with shortcut stdout redirection
 
@@ -203,6 +246,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test command execution in Docker with shortcut stdout redirection""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.docker
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_stdout_redirect_mediumcut_docker(self):
         """Test command execution in Docker with mediumcut stdout redirection
 
@@ -224,6 +272,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test command execution in Docker with mediumcut stdout redirection""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_stderr_redirect(self):
         """Test command line with stderr redirection
 
@@ -245,6 +298,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test command line with stderr redirection""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_stderr_redirect_shortcut(self):
         """Test command line with stderr redirection, brief syntax
 
@@ -266,6 +324,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test command line with stderr redirection, brief syntax""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_stderr_redirect_mediumcut(self):
         """Test command line with stderr redirection, named brief syntax
 
@@ -287,6 +350,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test command line with stderr redirection, named brief syntax""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_stdinout_redirect_docker(self):
         """Test command execution in Docker with stdin and stdout redirection
 
@@ -308,6 +376,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test command execution in Docker with stdin and stdout redirection""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.green
     def test_conformance_v1_1_expression_any(self):
         """Test default usage of Any in expressions.
 
@@ -325,6 +398,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test default usage of Any in expressions.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.green
     def test_conformance_v1_1_expression_any_null(self):
         """Test explicitly passing null to Any type inputs with default values.
 
@@ -342,6 +420,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test explicitly passing null to Any type inputs with default values.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.green
     def test_conformance_v1_1_expression_any_string(self):
         """Testing the string 'null' does not trip up an Any with a default value.
 
@@ -359,6 +442,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Testing the string 'null' does not trip up an Any with a default value.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.green
     def test_conformance_v1_1_expression_any_nodefaultany(self):
         """Test Any without defaults cannot be unspecified.
 
@@ -375,6 +463,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Any without defaults cannot be unspecified.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.green
     def test_conformance_v1_1_expression_any_null_nodefaultany(self):
         """Test explicitly passing null to Any type without a default value.
 
@@ -391,6 +484,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test explicitly passing null to Any type without a default value.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.green
     def test_conformance_v1_1_expression_any_nullstring_nodefaultany(self):
         """Testing the string 'null' does not trip up an Any without a default value.
 
@@ -408,6 +506,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Testing the string 'null' does not trip up an Any without a default value.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_any_outputSource_compatibility(self):
         """Testing Any type compatibility in outputSource
 
@@ -431,6 +534,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Testing Any type compatibility in outputSource""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_stdinout_redirect(self):
         """Test command execution in with stdin and stdout redirection
 
@@ -452,6 +560,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test command execution in with stdin and stdout redirection""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.green
     def test_conformance_v1_1_expression_parseint(self):
         """Test ExpressionTool with Javascript engine
 
@@ -469,6 +582,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test ExpressionTool with Javascript engine""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_expression_outputEval(self):
         """Test outputEval to transform output
 
@@ -486,6 +604,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test outputEval to transform output""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_wf_wc_parseInt(self):
         """Test two step workflow with imported tools
 
@@ -503,6 +626,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test two step workflow with imported tools""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_wf_wc_expressiontool(self):
         """Test two step workflow with inline tools
 
@@ -520,6 +648,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test two step workflow with inline tools""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_wf_wc_scatter(self):
         """Test single step workflow with Scatter step
 
@@ -540,6 +674,13 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test single step workflow with Scatter step""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.multiple_input
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_wf_wc_scatter_multiple_merge(self):
         """Test single step workflow with Scatter step and two data links connected to same input, default merge behavior
 
@@ -561,6 +702,13 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test single step workflow with Scatter step and two data links connected to same input, default merge behavior""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.multiple_input
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_wc_scatter_multiple_nested(self):
         """Test single step workflow with Scatter step and two data links connected to same input, nested merge behavior
 
@@ -582,6 +730,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test single step workflow with Scatter step and two data links connected to same input, nested merge behavior""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.multiple_input
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_wf_wc_scatter_multiple_flattened(self):
         """Test single step workflow with Scatter step and two data links connected to same input, flattened merge behavior
 
@@ -600,6 +754,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test single step workflow with Scatter step and two data links connected to same input, flattened merge behavior""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_wf_wc_nomultiple(self):
         """Test that no MultipleInputFeatureRequirement is necessary when workflow step source is a single-item list
 
@@ -617,6 +776,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that no MultipleInputFeatureRequirement is necessary when workflow step source is a single-item list""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_wf_input_default_missing(self):
         """Test workflow with default value for input parameter (missing)
 
@@ -634,6 +798,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow with default value for input parameter (missing)""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_wf_input_default_provided(self):
         """Test workflow with default value for input parameter (provided)
 
@@ -651,6 +820,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow with default value for input parameter (provided)""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_wf_default_tool_default(self):
         """Test that workflow defaults override tool defaults
 
@@ -668,6 +842,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that workflow defaults override tool defaults""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.env_var
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_envvar_req(self):
         """Test EnvVarRequirement
 
@@ -689,6 +868,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test EnvVarRequirement""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_scatter_single_param(self):
         """Test workflow scatter with single scatter parameter
 
@@ -710,6 +894,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow scatter with single scatter parameter""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_scatter_two_nested_crossproduct(self):
         """Test workflow scatter with two scatter parameters and nested_crossproduct join method
 
@@ -731,6 +920,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow scatter with two scatter parameters and nested_crossproduct join method""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_scatter_two_flat_crossproduct(self):
         """Test workflow scatter with two scatter parameters and flat_crossproduct join method
 
@@ -752,6 +946,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow scatter with two scatter parameters and flat_crossproduct join method""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_scatter_two_dotproduct(self):
         """Test workflow scatter with two scatter parameters and dotproduct join method
 
@@ -771,6 +970,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow scatter with two scatter parameters and dotproduct join method""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_wf_scatter_emptylist(self):
         """Test workflow scatter with single empty list parameter
 
@@ -788,6 +992,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow scatter with single empty list parameter""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_scatter_nested_crossproduct_secondempty(self):
         """Test workflow scatter with two scatter parameters and nested_crossproduct join method with second list empty
 
@@ -807,6 +1016,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow scatter with two scatter parameters and nested_crossproduct join method with second list empty""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_scatter_nested_crossproduct_firstempty(self):
         """Test workflow scatter with two scatter parameters and nested_crossproduct join method with first list empty
 
@@ -824,6 +1038,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow scatter with two scatter parameters and nested_crossproduct join method with first list empty""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_scatter_flat_crossproduct_oneempty(self):
         """Test workflow scatter with two scatter parameters, one of which is empty and flat_crossproduct join method
 
@@ -841,6 +1060,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow scatter with two scatter parameters, one of which is empty and flat_crossproduct join method""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_wf_scatter_dotproduct_twoempty(self):
         """Test workflow scatter with two empty scatter parameters and dotproduct join method
 
@@ -858,6 +1082,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow scatter with two empty scatter parameters and dotproduct join method""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_any_input_param(self):
         """Test Any type input parameter
 
@@ -877,6 +1106,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Any type input parameter""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.subworkflow
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.green
     def test_conformance_v1_1_nested_workflow(self):
         """Test nested workflow
 
@@ -895,6 +1130,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test nested workflow""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.env_var
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_requirement_priority(self):
         """Test requirement priority
 
@@ -916,6 +1156,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test requirement priority""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.env_var
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_requirement_override_hints(self):
         """Test requirements override hints
 
@@ -937,6 +1182,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test requirements override hints""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.env_var
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_requirement_workflow_steps(self):
         """Test requirements on workflow steps
 
@@ -958,6 +1208,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test requirements on workflow steps""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_step_input_default_value(self):
         """Test default value on step input parameter
 
@@ -975,6 +1230,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test default value on step input parameter""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_step_input_default_value_nosource(self):
         """Test use default value on step input parameter with empty source
 
@@ -992,6 +1252,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test use default value on step input parameter with empty source""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_step_input_default_value_nullsource(self):
         """Test use default value on step input parameter with null source
 
@@ -1009,6 +1274,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test use default value on step input parameter with null source""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_step_input_default_value_overriden(self):
         """Test default value on step input parameter overridden by provided source
 
@@ -1026,6 +1296,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test default value on step input parameter overridden by provided source""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_wf_simple(self):
         """Test simple workflow
 
@@ -1047,6 +1322,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test simple workflow""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_hints_unknown_ignored(self):
         """Test unknown hints are ignored.
 
@@ -1068,6 +1348,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test unknown hints are ignored.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.initial_work_dir
+    @pytest.mark.inline_javascript
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_initial_workdir_secondary_files_expr(self):
         """Test InitialWorkDirRequirement linking input files and capturing secondaryFiles on input and output. Also tests the use of a variety of parameter references and expressions in the secondaryFiles field.
 
@@ -1136,6 +1422,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test InitialWorkDirRequirement linking input files and capturing secondaryFiles on input and output. Also tests the use of a variety of parameter references and expressions in the secondaryFiles field.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.initial_work_dir
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_rename(self):
         """Test InitialWorkDirRequirement with expression in filename.
 
@@ -1157,6 +1448,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test InitialWorkDirRequirement with expression in filename.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.initial_work_dir
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_initial_workdir_trailingnl(self):
         """Test if trailing newline is present in file entry in InitialWorkDir
 
@@ -1178,6 +1474,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test if trailing newline is present in file entry in InitialWorkDir""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_inline_expressions(self):
         """Test inline expressions
 
@@ -1195,6 +1496,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test inline expressions""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.schema_def
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_schemadef_req_tool_param(self):
         """Test SchemaDefRequirement definition used in tool parameter
 
@@ -1216,6 +1522,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test SchemaDefRequirement definition used in tool parameter""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.schema_def
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_schemadef_req_wf_param(self):
         """Test SchemaDefRequirement definition used in workflow parameter
 
@@ -1237,6 +1548,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test SchemaDefRequirement definition used in workflow parameter""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_param_evaluation_noexpr(self):
         """Test parameter evaluation, no support for JS expressions
 
@@ -1314,6 +1630,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test parameter evaluation, no support for JS expressions""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_param_evaluation_expr(self):
         """Test parameter evaluation, with support for JS expressions
 
@@ -1391,6 +1712,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test parameter evaluation, with support for JS expressions""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_metadata(self):
         """Test metadata
 
@@ -1402,10 +1728,16 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             output: {}
             tags:
             - required
+            - command_line_tool
             tool: tests/metadata.cwl
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test metadata""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_format_checking(self):
         """Test simple format checking.
 
@@ -1428,6 +1760,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test simple format checking.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_format_checking_subclass(self):
         """Test format checking against ontology using subclassOf.
 
@@ -1450,6 +1787,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test format checking against ontology using subclassOf.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_format_checking_equivalentclass(self):
         """Test format checking against ontology using equivalentClass.
 
@@ -1472,6 +1814,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test format checking against ontology using equivalentClass.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.docker
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_output_secondaryfile_optional(self):
         """Test optional output file and optional secondaryFile on output.
 
@@ -1494,6 +1841,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test optional output file and optional secondaryFile on output.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_valuefrom_ignored_null(self):
         """Test that valueFrom is ignored when the parameter is null
 
@@ -1513,6 +1865,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that valueFrom is ignored when the parameter is null""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_valuefrom_secondexpr_ignored(self):
         """Test that second expression in concatenated valueFrom is not ignored
 
@@ -1532,6 +1889,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that second expression in concatenated valueFrom is not ignored""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.step_input
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_valuefrom_wf_step(self):
         """Test valueFrom on workflow step.
 
@@ -1550,6 +1913,13 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test valueFrom on workflow step.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.step_input
+    @pytest.mark.inline_javascript
+    @pytest.mark.multiple_input
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_valuefrom_wf_step_multiple(self):
         """Test valueFrom on workflow step with multiple sources
 
@@ -1571,6 +1941,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test valueFrom on workflow step with multiple sources""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.step_input
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_valuefrom_wf_step_other(self):
         """Test valueFrom on workflow step referencing other inputs
 
@@ -1591,6 +1967,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test valueFrom on workflow step referencing other inputs""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_record_output_binding(self):
         """Test record type output binding.
 
@@ -1618,6 +1999,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test record type output binding.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_docker_json_output_path(self):
         """Test support for reading cwl.output.json when running in a Docker container and just 'path' is provided.
 
@@ -1639,6 +2025,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test support for reading cwl.output.json when running in a Docker container and just 'path' is provided.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_docker_json_output_location(self):
         """Test support for reading cwl.output.json when running in a Docker container and just 'location' is provided.
 
@@ -1660,6 +2051,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test support for reading cwl.output.json when running in a Docker container and just 'location' is provided.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_multiple_glob_expr_list(self):
         """Test support for returning multiple glob patterns from expression
 
@@ -1689,6 +2085,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test support for returning multiple glob patterns from expression""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.step_input
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_scatter_oneparam_valuefrom(self):
         """Test workflow scatter with single scatter parameter and two valueFrom on step input (first and current el)
 
@@ -1711,6 +2113,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow scatter with single scatter parameter and two valueFrom on step input (first and current el)""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.step_input
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_scatter_twoparam_nested_crossproduct_valuefrom(self):
         """Test workflow scatter with two scatter parameters and nested_crossproduct join method and valueFrom on step input
 
@@ -1733,6 +2141,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow scatter with two scatter parameters and nested_crossproduct join method and valueFrom on step input""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.step_input
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_scatter_twoparam_flat_crossproduct_valuefrom(self):
         """Test workflow scatter with two scatter parameters and flat_crossproduct join method and valueFrom on step input
 
@@ -1755,6 +2169,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow scatter with two scatter parameters and flat_crossproduct join method and valueFrom on step input""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.step_input
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_scatter_twoparam_dotproduct_valuefrom(self):
         """Test workflow scatter with two scatter parameters and dotproduct join method and valueFrom on step input
 
@@ -1775,6 +2195,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow scatter with two scatter parameters and dotproduct join method and valueFrom on step input""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.step_input
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_scatter_oneparam_valuefrom_twice_current_el(self):
         """Test workflow scatter with single scatter parameter and two valueFrom on step input (current el twice)
 
@@ -1797,6 +2223,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow scatter with single scatter parameter and two valueFrom on step input (current el twice)""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.step_input
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_scatter_oneparam_valueFrom(self):
         """Test valueFrom eval on scattered input parameter
 
@@ -1823,6 +2255,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test valueFrom eval on scattered input parameter""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_wf_two_inputfiles_namecollision(self):
         """Test workflow two input files with same name.
 
@@ -1844,6 +2281,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow two input files with same name.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_directory_input_param_ref(self):
         """Test directory input with parameter reference
 
@@ -1865,6 +2307,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test directory input with parameter reference""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.shell_command
+    @pytest.mark.green
     def test_conformance_v1_1_directory_input_docker(self):
         """Test directory input in Docker
 
@@ -1887,6 +2335,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test directory input in Docker""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_directory_output(self):
         """Test directory output
 
@@ -1914,6 +2367,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test directory output""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_directory_secondaryfiles(self):
         """Test directories in secondaryFiles
 
@@ -1935,6 +2393,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test directories in secondaryFiles""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.shell_command
+    @pytest.mark.initial_work_dir
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_dynamic_initial_workdir(self):
         """Test dynamic initial work dir
 
@@ -1957,6 +2421,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test dynamic initial work dir""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.initial_work_dir
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_writable_stagedfiles(self):
         """Test writable staged files.
 
@@ -1978,6 +2447,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test writable staged files.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_input_file_literal(self):
         """Test file literal as input
 
@@ -1999,6 +2473,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test file literal as input""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.initial_work_dir
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_initial_workdir_expr(self):
         """Test expression in InitialWorkDir listing
 
@@ -2020,6 +2499,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test expression in InitialWorkDir listing""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_nameroot_nameext_stdout_expr(self):
         """Test nameroot/nameext expression in arguments, stdout
 
@@ -2041,6 +2525,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test nameroot/nameext expression in arguments, stdout""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_input_dir_inputbinding(self):
         """Test directory input with inputBinding
 
@@ -2062,6 +2551,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test directory input with inputBinding""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_cl_gen_arrayofarrays(self):
         """Test command line generation of array-of-arrays
 
@@ -2083,6 +2577,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test command line generation of array-of-arrays""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_env_home_tmpdir(self):
         """Test $HOME and $TMPDIR are set correctly
 
@@ -2099,6 +2598,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test $HOME and $TMPDIR are set correctly""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_env_home_tmpdir_docker(self):
         """Test $HOME and $TMPDIR are set correctly in Docker
 
@@ -2115,6 +2619,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test $HOME and $TMPDIR are set correctly in Docker""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_expressionlib_tool_wf_override(self):
         """Test that expressionLib requirement of individual tool step overrides expressionLib of workflow.
 
@@ -2136,6 +2645,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that expressionLib requirement of individual tool step overrides expressionLib of workflow.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.docker
+    @pytest.mark.initial_work_dir
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_initial_workdir_output(self):
         """Test output of InitialWorkDir
 
@@ -2163,6 +2678,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test output of InitialWorkDir""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.subworkflow
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_embedded_subworkflow(self):
         """Test embedded subworkflow
 
@@ -2180,6 +2700,13 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test embedded subworkflow""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.docker
+    @pytest.mark.inline_javascript
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_filesarray_secondaryfiles(self):
         """Test required, optional and null secondaryFiles on array of files.
 
@@ -2203,6 +2730,13 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test required, optional and null secondaryFiles on array of files.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.docker
+    @pytest.mark.inline_javascript
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_filesarray_secondaryfiles2(self):
         """Test required, optional and null secondaryFiles on array of files.
 
@@ -2221,6 +2755,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test required, optional and null secondaryFiles on array of files.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.green
     def test_conformance_v1_1_exprtool_directory_literal(self):
         """Test directory literal output created by ExpressionTool
 
@@ -2249,6 +2788,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test directory literal output created by ExpressionTool""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.green
     def test_conformance_v1_1_exprtool_file_literal(self):
         """Test file literal output created by ExpressionTool
 
@@ -2270,6 +2814,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test file literal output created by ExpressionTool""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.docker
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_dockeroutputdir(self):
         """Test dockerOutputDirectory
 
@@ -2291,6 +2840,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test dockerOutputDirectory""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_hints_import(self):
         """Test hints with $import
 
@@ -2312,6 +2866,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test hints with $import""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_default_path_notfound_warning(self):
         """Test warning instead of error when default path is not found
 
@@ -2328,6 +2887,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test warning instead of error when default path is not found""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_inlinejs_req_expressions(self):
         """Test InlineJavascriptRequirement with multiple expressions in the same tool
 
@@ -2361,6 +2925,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test InlineJavascriptRequirement with multiple expressions in the same tool""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.initial_work_dir
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_input_dir_recurs_copy_writable(self):
         """Test if a writable input directory is recursively copied and writable
 
@@ -2412,6 +2982,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test if a writable input directory is recursively copied and writable""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_null_missing_params(self):
         """Test that missing parameters are null (not undefined) in expression
 
@@ -2431,6 +3006,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that missing parameters are null (not undefined) in expression""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_param_notnull_expr(self):
         """Test that provided parameter is not null in expression
 
@@ -2450,6 +3030,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that provided parameter is not null in expression""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_wf_compound_doc(self):
         """Test compound workflow document
 
@@ -2471,6 +3056,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test compound workflow document""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.step_input_expression
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_nameroot_nameext_generated(self):
         """Test that nameroot and nameext are generated from basename at execution time by the runner
 
@@ -2499,6 +3089,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that nameroot and nameext are generated from basename at execution time by the runner""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.initial_work_dir
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_initialworkpath_output(self):
         """Test that file path in $(inputs) for initialworkdir is in $(outdir).
 
@@ -2515,6 +3110,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that file path in $(inputs) for initialworkdir is in $(outdir).""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.multiple_input
+    @pytest.mark.inline_javascript
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_scatter_twopar_oneinput_flattenedmerge(self):
         """Test single step workflow with Scatter step and two data links connected to same input, flattened merge behavior. Workflow inputs are set as list
 
@@ -2533,6 +3134,13 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test single step workflow with Scatter step and two data links connected to same input, flattened merge behavior. Workflow inputs are set as list""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.step_input
+    @pytest.mark.inline_javascript
+    @pytest.mark.multiple_input
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_multiplesources_multipletypes(self):
         """Test step input with multiple sources with multiple types
 
@@ -2552,6 +3160,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test step input with multiple sources with multiple types""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_shelldir_notinterpreted(self):
         """Test that shell directives are not interpreted.
 
@@ -2578,6 +3191,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that shell directives are not interpreted.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_shelldir_quoted(self):
         """Test that shell directives are quoted.
 
@@ -2604,6 +3222,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that shell directives are quoted.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.initial_work_dir
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_initial_workdir_empty_writable(self):
         """Test empty writable dir with InitialWorkDirRequirement
 
@@ -2631,6 +3255,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test empty writable dir with InitialWorkDirRequirement""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inline_javascript
+    @pytest.mark.initial_work_dir
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_initial_workdir_empty_writable_docker(self):
         """Test empty writable dir with InitialWorkDirRequirement inside Docker
 
@@ -2658,6 +3288,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test empty writable dir with InitialWorkDirRequirement inside Docker""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.resource
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_dynamic_resreq_inputs(self):
         """Test dynamic resource reqs referencing inputs
 
@@ -2679,6 +3314,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test dynamic resource reqs referencing inputs""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_fileliteral_input_docker(self):
         """Test file literal as input without Docker
 
@@ -2700,6 +3340,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test file literal as input without Docker""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_outputbinding_glob_sorted(self):
         """Test that OutputBinding.glob is sorted as specified by POSIX
 
@@ -2745,6 +3390,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that OutputBinding.glob is sorted as specified by POSIX""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.initial_work_dir
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_initialworkdir_nesteddir(self):
         """Test InitialWorkDirRequirement with a nested directory structure from another step
 
@@ -2766,6 +3416,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test InitialWorkDirRequirement with a nested directory structure from another step""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_booleanflags_cl_noinputbinding(self):
         """Test that boolean flags do not appear on command line if inputBinding is empty and not null
 
@@ -2783,6 +3438,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that boolean flags do not appear on command line if inputBinding is empty and not null""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_expr_reference_self_noinput(self):
         """Test that expression engine does not fail to evaluate reference to self with unprovided input
 
@@ -2800,6 +3460,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that expression engine does not fail to evaluate reference to self with unprovided input""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_success_codes(self):
         """Test successCodes
 
@@ -2816,6 +3481,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test successCodes""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.resource
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_dynamic_resreq_wf(self):
         """Test simple workflow with a dynamic resource requirement
 
@@ -2837,6 +3507,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test simple workflow with a dynamic resource requirement""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_cl_empty_array_input(self):
         """Test that empty array input does not add anything to command line
 
@@ -2854,6 +3529,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that empty array input does not add anything to command line""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.resource
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_resreq_step_overrides_wf(self):
         """Test that ResourceRequirement on a step level redefines requirement on the workflow level
 
@@ -2875,6 +3555,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that ResourceRequirement on a step level redefines requirement on the workflow level""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_valuefrom_constant_overrides_inputs(self):
         """Test valueFrom with constant value overriding provided array inputs
 
@@ -2893,6 +3578,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test valueFrom with constant value overriding provided array inputs""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.resource
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_dynamic_resreq_filesizes(self):
         """Test dynamic resource reqs referencing the size of Files inside a Directory
 
@@ -2914,6 +3604,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test dynamic resource reqs referencing the size of Files inside a Directory""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_wf_step_connect_undeclared_param(self):
         """Test that it is not an error to connect a parameter to a workflow step, even if the parameter doesn't appear in the `run` process inputs.
 
@@ -2933,6 +3628,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that it is not an error to connect a parameter to a workflow step, even if the parameter doesn't appear in the `run` process inputs.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.workflow
+    @pytest.mark.green
     def test_conformance_v1_1_wf_step_access_undeclared_param(self):
         """Test that parameters that don't appear in the `run` process inputs are not present in the input object used to run the tool.
 
@@ -2949,14 +3649,19 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that parameters that don't appear in the `run` process inputs are not present in the input object used to run the tool.""")
 
-    def test_conformance_v1_1_env_home_tmpdir_docker(self):
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
+    def test_conformance_v1_1_env_home_tmpdir_docker_no_return_code(self):
         """Test $HOME and $TMPDIR are set correctly in Docker without using return code
 
         Generated from::
 
             id: 134
             job: tests/empty.json
-            label: env_home_tmpdir_docker
+            label: env_home_tmpdir_docker_no_return_code
             output:
               results:
                 basename: results
@@ -2970,6 +3675,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test $HOME and $TMPDIR are set correctly in Docker without using return code""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.scatter
+    @pytest.mark.step_input
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_wf_scatter_oneparam_valuefrom_inputs(self):
         """Test workflow scatter with single scatter parameter and two valueFrom using $inputs (first and current el)
 
@@ -2992,6 +3703,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test workflow scatter with single scatter parameter and two valueFrom using $inputs (first and current el)""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.schema_def
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_packed_import_schema(self):
         """SchemaDefRequirement with $import, and packed
 
@@ -3013,6 +3729,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """SchemaDefRequirement with $import, and packed""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_job_input_secondary_subdirs(self):
         """Test specifying secondaryFiles in subdirectories of the job input document.
 
@@ -3034,6 +3755,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test specifying secondaryFiles in subdirectories of the job input document.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.shell_command
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_job_input_subdir_primary_and_secondary_subdirs(self):
         """Test specifying secondaryFiles in same subdirectory of the job input as the primary input file.
 
@@ -3055,6 +3781,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test specifying secondaryFiles in same subdirectory of the job input as the primary input file.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_scatter_embedded_subworkflow(self):
         """Test simple scatter over an embedded subworkflow
 
@@ -3074,6 +3805,14 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test simple scatter over an embedded subworkflow""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.scatter
+    @pytest.mark.subworkflow
+    @pytest.mark.multiple_input
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_scatter_multi_input_embedded_subworkflow(self):
         """Test simple multiple input scatter over an embedded subworkflow
 
@@ -3096,6 +3835,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test simple multiple input scatter over an embedded subworkflow""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.subworkflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_embedded_subworkflow_embedded_subsubworkflow(self):
         """Test twice nested subworkflow
 
@@ -3114,6 +3859,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test twice nested subworkflow""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.subworkflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_embedded_subworkflow_with_tool_and_subsubworkflow(self):
         """Test subworkflow of mixed depth with tool first
 
@@ -3132,6 +3883,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test subworkflow of mixed depth with tool first""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.subworkflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_embedded_subworkflow_with_subsubworkflow_and_tool(self):
         """Test subworkflow of mixed depth with tool after
 
@@ -3150,6 +3907,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test subworkflow of mixed depth with tool after""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.shell_command
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_records_inputs_and_outputs(self):
         """Test record type inputs to and outputs from workflows.
 
@@ -3177,6 +3939,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test record type inputs to and outputs from workflows.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_integer_input(self):
         """Test integer workflow input and outputs
 
@@ -3195,6 +3963,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test integer workflow input and outputs""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_integer_input_optional_specified(self):
         """Test optional integer workflow inputs (specified)
 
@@ -3213,6 +3987,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test optional integer workflow inputs (specified)""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_integer_input_optional_unspecified(self):
         """Test optional integer workflow inputs (unspecified)
 
@@ -3231,6 +4011,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test optional integer workflow inputs (unspecified)""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_integer_input_default_specified(self):
         """Test default integer workflow inputs (specified)
 
@@ -3249,6 +4035,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test default integer workflow inputs (specified)""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_integer_input_default_unspecified(self):
         """Test default integer workflow inputs (unspecified)
 
@@ -3267,6 +4059,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test default integer workflow inputs (unspecified)""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_integer_input_default_and_tool_integer_input_default(self):
         """Test default integer tool and workflow inputs (unspecified)
 
@@ -3285,6 +4083,10 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test default integer tool and workflow inputs (unspecified)""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_file_input_default_unspecified(self):
         """Test File input with default unspecified to workflow
 
@@ -3306,6 +4108,10 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test File input with default unspecified to workflow""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_file_input_default_specified(self):
         """Test File input with default specified to workflow
 
@@ -3327,6 +4133,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test File input with default specified to workflow""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_clt_optional_union_input_file_or_files_with_array_of_one_file_provided(self):
         """Test input union type or File or File array to a tool with one file in array specified.
 
@@ -3349,6 +4160,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test input union type or File or File array to a tool with one file in array specified.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_clt_optional_union_input_file_or_files_with_many_files_provided(self):
         """Test input union type or File or File array to a tool with a few files in array specified.
 
@@ -3371,6 +4187,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test input union type or File or File array to a tool with a few files in array specified.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.inline_javascript
+    @pytest.mark.green
     def test_conformance_v1_1_clt_optional_union_input_file_or_files_with_single_file_provided(self):
         """Test input union type or File or File array to a tool with one file specified.
 
@@ -3393,6 +4214,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test input union type or File or File array to a tool with one file specified.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.inline_javascript
+    @pytest.mark.green
     def test_conformance_v1_1_clt_optional_union_input_file_or_files_with_nothing_provided(self):
         """Test input union type or File or File array to a tool with null specified.
 
@@ -3415,6 +4241,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test input union type or File or File array to a tool with null specified.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.inline_javascript
+    @pytest.mark.green
     def test_conformance_v1_1_clt_any_input_with_integer_provided(self):
         """Test Any parameter with integer input to a tool
 
@@ -3432,6 +4263,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Any parameter with integer input to a tool""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.inline_javascript
+    @pytest.mark.green
     def test_conformance_v1_1_clt_any_input_with_string_provided(self):
         """Test Any parameter with string input to a tool
 
@@ -3449,6 +4285,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Any parameter with string input to a tool""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.inline_javascript
+    @pytest.mark.green
     def test_conformance_v1_1_clt_any_input_with_file_provided(self):
         """Test Any parameter with file input to a tool
 
@@ -3466,6 +4307,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Any parameter with file input to a tool""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_clt_any_input_with_mixed_array_provided(self):
         """Test Any parameter with array input to a tool
 
@@ -3485,6 +4331,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Any parameter with array input to a tool""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_clt_any_input_with_record_provided(self):
         """Test Any parameter with record input to a tool
 
@@ -3504,6 +4355,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Any parameter with record input to a tool""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_any_input_with_integer_provided(self):
         """Test Any parameter with integer input to a workflow
 
@@ -3521,6 +4377,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Any parameter with integer input to a workflow""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_any_input_with_string_provided(self):
         """Test Any parameter with string input to a workflow
 
@@ -3538,6 +4399,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Any parameter with string input to a workflow""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_any_input_with_file_provided(self):
         """Test Any parameter with file input to a workflow
 
@@ -3555,6 +4421,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Any parameter with file input to a workflow""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_any_input_with_mixed_array_provided(self):
         """Test Any parameter with array input to a workflow
 
@@ -3574,6 +4445,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Any parameter with array input to a workflow""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_any_input_with_record_provided(self):
         """Test Any parameter with record input to a tool
 
@@ -3593,6 +4469,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Any parameter with record input to a tool""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.green
     def test_conformance_v1_1_workflow_union_default_input_unspecified(self):
         """Test union type input to workflow with default unspecified
 
@@ -3611,6 +4493,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test union type input to workflow with default unspecified""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.green
     def test_conformance_v1_1_workflow_union_default_input_with_file_provided(self):
         """Test union type input to workflow with default specified as file
 
@@ -3629,6 +4517,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test union type input to workflow with default specified as file""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.step_input
+    @pytest.mark.red
     def test_conformance_v1_1_workflowstep_valuefrom_string(self):
         """Test valueFrom on workflow step from literal (string).
 
@@ -3648,6 +4541,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test valueFrom on workflow step from literal (string).""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.step_input
+    @pytest.mark.red
     def test_conformance_v1_1_workflowstep_valuefrom_file_basename(self):
         """Test valueFrom on workflow step using basename.
 
@@ -3670,6 +4568,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test valueFrom on workflow step using basename.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.expression_tool
+    @pytest.mark.inline_javascript
+    @pytest.mark.green
     def test_conformance_v1_1_expression_tool_int_array_output(self):
         """Test output arrays in a tool (with ints).
 
@@ -3690,6 +4593,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test output arrays in a tool (with ints).""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.expression_tool
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_workflowstep_int_array_input_output(self):
         """Test output arrays in a workflow (with ints).
 
@@ -3708,6 +4617,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test output arrays in a workflow (with ints).""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.expression_tool
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_file_array_output(self):
         """Test output arrays in a workflow (with Files).
 
@@ -3736,6 +4651,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test output arrays in a workflow (with Files).""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.docker
+    @pytest.mark.red
     def test_conformance_v1_1_docker_entrypoint(self):
         """Test Docker ENTRYPOINT usage
 
@@ -3758,6 +4678,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Docker ENTRYPOINT usage""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.inline_javascript
+    @pytest.mark.green
     def test_conformance_v1_1_clt_file_size_property_with_empty_file(self):
         """Test use of size in expressions for an empty file
 
@@ -3780,6 +4705,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test use of size in expressions for an empty file""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.inline_javascript
+    @pytest.mark.green
     def test_conformance_v1_1_clt_file_size_property_with_multi_file(self):
         """Test use of size in expressions for a few files
 
@@ -3802,6 +4732,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test use of size in expressions for a few files""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.required
+    @pytest.mark.green
     def test_conformance_v1_1_any_without_defaults_unspecified_fails(self):
         """Test Any without defaults, unspecified, should fail.
 
@@ -3818,6 +4753,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Any without defaults, unspecified, should fail.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.required
+    @pytest.mark.green
     def test_conformance_v1_1_any_without_defaults_specified_fails(self):
         """Test Any without defaults, specified, should fail.
 
@@ -3834,6 +4774,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Any without defaults, specified, should fail.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.required
+    @pytest.mark.red
     def test_conformance_v1_1_step_input_default_value_noexp(self):
         """Test default value on step input parameter, no ExpressionTool
 
@@ -3854,6 +4799,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test default value on step input parameter, no ExpressionTool""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.required
+    @pytest.mark.red
     def test_conformance_v1_1_step_input_default_value_overriden_noexp(self):
         """Test default value on step input parameter overridden by provided source, no ExpressionTool
 
@@ -3874,6 +4824,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test default value on step input parameter overridden by provided source, no ExpressionTool""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.subworkflow
+    @pytest.mark.red
     def test_conformance_v1_1_nested_workflow_noexp(self):
         """Test nested workflow, without ExpressionTool
 
@@ -3894,6 +4849,13 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test nested workflow, without ExpressionTool""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.step_input
+    @pytest.mark.inline_javascript
+    @pytest.mark.multiple_input
+    @pytest.mark.red
     def test_conformance_v1_1_wf_multiplesources_multipletypes_noexp(self):
         """Test step input with multiple sources with multiple types, without ExpressionTool
 
@@ -3916,6 +4878,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test step input with multiple sources with multiple types, without ExpressionTool""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.resource
+    @pytest.mark.red
     def test_conformance_v1_1_dynamic_resreq_wf_optional_file_default(self):
         """Within a workflow, test accessing the size attribute of an optional input File as part of a CommandLineTool's ResourceRequirement calculation. The CommandLineTool input has a default value (a local file) and the workflow nor the workflow step does not provide any value for this input.
 
@@ -3937,6 +4904,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Within a workflow, test accessing the size attribute of an optional input File as part of a CommandLineTool's ResourceRequirement calculation. The CommandLineTool input has a default value (a local file) and the workflow nor the workflow step does not provide any value for this input.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.resource
+    @pytest.mark.red
     def test_conformance_v1_1_dynamic_resreq_wf_optional_file_step_default(self):
         """Within a workflow, test accessing the size attribute of an optional input File as part of a CommandLineTool's ResourceRequirement calculation. The workflow step provides a default value (a local file) for this input and the workflow itself does not provide any value for this input.
 
@@ -3958,6 +4930,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Within a workflow, test accessing the size attribute of an optional input File as part of a CommandLineTool's ResourceRequirement calculation. The workflow step provides a default value (a local file) for this input and the workflow itself does not provide any value for this input.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.resource
+    @pytest.mark.red
     def test_conformance_v1_1_dynamic_resreq_wf_optional_file_wf_default(self):
         """Within a workflow, test accessing the size attribute of an optional input File as part of a CommandLineTool's ResourceRequirement calculation. The workflow itelf provides a default value (a local file) for this input.
 
@@ -3979,6 +4956,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Within a workflow, test accessing the size attribute of an optional input File as part of a CommandLineTool's ResourceRequirement calculation. The workflow itelf provides a default value (a local file) for this input.""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_step_input_default_value_overriden_2nd_step(self):
         """Test default value on step input parameter overridden by provided source. With passthrough first step
 
@@ -3996,6 +4978,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test default value on step input parameter overridden by provided source. With passthrough first step""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.required
+    @pytest.mark.red
     def test_conformance_v1_1_step_input_default_value_overriden_2nd_step_noexp(self):
         """Test default value on step input parameter overridden by provided source. With passthrough first step and no ExpressionTool
 
@@ -4016,6 +5003,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test default value on step input parameter overridden by provided source. With passthrough first step and no ExpressionTool""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_step_input_default_value_overriden_2nd_step_null(self):
         """Test default value on step input parameter overridden by provided source. With null producing first step
 
@@ -4033,6 +5025,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test default value on step input parameter overridden by provided source. With null producing first step""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.required
+    @pytest.mark.red
     def test_conformance_v1_1_step_input_default_value_overriden_2nd_step_null_noexp(self):
         """Test default value on step input parameter overridden by provided source. With null producing first step and no ExpressionTool
 
@@ -4053,6 +5050,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test default value on step input parameter overridden by provided source. With null producing first step and no ExpressionTool""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.required
+    @pytest.mark.red
     def test_conformance_v1_1_stdin_from_directory_literal_with_local_file(self):
         """Pipe to stdin from user provided local File via a Directory literal
 
@@ -4073,6 +5075,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Pipe to stdin from user provided local File via a Directory literal""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.required
+    @pytest.mark.red
     def test_conformance_v1_1_stdin_from_directory_literal_with_literal_file(self):
         """Pipe to stdin from literal File via a Directory literal
 
@@ -4093,6 +5100,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Pipe to stdin from literal File via a Directory literal""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.required
+    @pytest.mark.red
     def test_conformance_v1_1_directory_literal_with_literal_file_nostdin(self):
         """Test non-stdin reference to literal File via a Directory literal
 
@@ -4113,6 +5125,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test non-stdin reference to literal File via a Directory literal""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.required
+    @pytest.mark.red
     def test_conformance_v1_1_no_inputs_commandlinetool(self):
         """Test CommandLineTool without inputs
 
@@ -4133,6 +5150,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test CommandLineTool without inputs""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.required
+    @pytest.mark.green
     def test_conformance_v1_1_no_outputs_commandlinetool(self):
         """Test CommandLineTool without outputs
 
@@ -4149,6 +5171,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test CommandLineTool without outputs""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.required
+    @pytest.mark.red
     def test_conformance_v1_1_no_inputs_workflow(self):
         """Test Workflow without inputs
 
@@ -4169,6 +5196,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Workflow without inputs""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.required
+    @pytest.mark.green
     def test_conformance_v1_1_no_outputs_workflow(self):
         """Test Workflow without outputs
 
@@ -4185,6 +5217,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test Workflow without outputs""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.required
+    @pytest.mark.red
     def test_conformance_v1_1_anonymous_enum_in_array(self):
         """Test an anonymous enum inside an array inside a record
 
@@ -4205,6 +5242,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test an anonymous enum inside an array inside a record""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.schema_def
+    @pytest.mark.red
     def test_conformance_v1_1_schema_def_anonymous_enum_in_array(self):
         """Test an anonymous enum inside an array inside a record, SchemaDefRequirement
 
@@ -4225,6 +5267,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test an anonymous enum inside an array inside a record, SchemaDefRequirement""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.docker
+    @pytest.mark.red
     def test_conformance_v1_1_stdin_shorcut(self):
         """Test command execution in with stdin and stdout redirection using stdin shortcut
 
@@ -4246,6 +5293,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test command execution in with stdin and stdout redirection using stdin shortcut""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.required
+    @pytest.mark.red
     def test_conformance_v1_1_secondary_files_in_unnamed_records(self):
         """Test secondaryFiles on anonymous record fields
 
@@ -4262,6 +5314,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test secondaryFiles on anonymous record fields""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.schema_def
+    @pytest.mark.red
     def test_conformance_v1_1_secondary_files_in_named_records(self):
         """Test secondaryFiles on SchemaDefRequirement record fields
 
@@ -4278,6 +5335,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test secondaryFiles on SchemaDefRequirement record fields""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.required
+    @pytest.mark.red
     def test_conformance_v1_1_secondary_files_in_output_records(self):
         """Test secondaryFiles on output record fields
 
@@ -4324,6 +5386,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test secondaryFiles on output record fields""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.required
+    @pytest.mark.green
     def test_conformance_v1_1_secondary_files_workflow_propagation(self):
         """Test secondaryFiles propagation through workflow
 
@@ -4340,6 +5407,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test secondaryFiles propagation through workflow""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.required
+    @pytest.mark.red
     def test_conformance_v1_1_secondary_files_missing(self):
         """Test checking when secondaryFiles are missing
 
@@ -4356,6 +5428,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test checking when secondaryFiles are missing""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.required
+    @pytest.mark.red
     def test_conformance_v1_1_input_records_file_entry_with_format(self):
         """Test format on anonymous record fields
 
@@ -4372,6 +5449,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test format on anonymous record fields""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.format_checking
+    @pytest.mark.green
     def test_conformance_v1_1_input_records_file_entry_with_format_and_bad_regular_input_file_format(self):
         """Test file format checking on parameter
 
@@ -4388,6 +5470,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test file format checking on parameter""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.format_checking
+    @pytest.mark.green
     def test_conformance_v1_1_input_records_file_entry_with_format_and_bad_entry_file_format(self):
         """Test file format checking on record field
 
@@ -4404,6 +5491,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test file format checking on record field""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.format_checking
+    @pytest.mark.green
     def test_conformance_v1_1_input_records_file_entry_with_format_and_bad_entry_array_file_format(self):
         """Test file format checking on array item
 
@@ -4420,6 +5512,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test file format checking on array item""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.format_checking
+    @pytest.mark.red
     def test_conformance_v1_1_record_output_file_entry_format(self):
         """Test format on output record fields
 
@@ -4449,6 +5546,13 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test format on output record fields""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.step_input
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_input_inputBinding_loadContents(self):
         """Test WorkflowInputParameter.inputBinding.loadContents
 
@@ -4468,6 +5572,13 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test WorkflowInputParameter.inputBinding.loadContents""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.step_input
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_input_loadContents_without_inputBinding(self):
         """Test WorkflowInputParameter.loadContents
 
@@ -4487,6 +5598,13 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test WorkflowInputParameter.loadContents""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.step_input
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.red
     def test_conformance_v1_1_expression_tool_input_loadContents(self):
         """Test loadContents on InputParameter.loadContents (expression)
 
@@ -4506,6 +5624,13 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test loadContents on InputParameter.loadContents (expression)""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.step_input
+    @pytest.mark.inline_javascript
+    @pytest.mark.expression_tool
+    @pytest.mark.red
     def test_conformance_v1_1_workflow_step_in_loadContents(self):
         """Test WorkflowStepInput.loadContents
 
@@ -4525,6 +5650,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test WorkflowStepInput.loadContents""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.timelimit
+    @pytest.mark.green
     def test_conformance_v1_1_timelimit_basic(self):
         """Test that job fails when exceeding time limit
 
@@ -4541,6 +5671,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that job fails when exceeding time limit""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.timelimit
+    @pytest.mark.green
     def test_conformance_v1_1_timelimit_invalid(self):
         """Test invalid time limit value
 
@@ -4557,6 +5692,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test invalid time limit value""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.timelimit
+    @pytest.mark.red
     def test_conformance_v1_1_timelimit_zero_unlimited(self):
         """Test zero timelimit means no limit
 
@@ -4573,6 +5713,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test zero timelimit means no limit""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.timelimit
+    @pytest.mark.inline_javascript
+    @pytest.mark.green
     def test_conformance_v1_1_timelimit_from_expression(self):
         """Test expression in time limit
 
@@ -4590,6 +5736,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test expression in time limit""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.expression_tool
+    @pytest.mark.timelimit
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_timelimit_expressiontool(self):
         """Test timelimit in expressiontool is ignored
 
@@ -4608,6 +5760,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test timelimit in expressiontool is ignored""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.timelimit
+    @pytest.mark.green
     def test_conformance_v1_1_timelimit_basic_wf(self):
         """Test that tool in workflow fails when exceeding time limit
 
@@ -4624,6 +5781,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that tool in workflow fails when exceeding time limit""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.timelimit
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_timelimit_invalid_wf(self):
         """Test that workflow level time limit is not applied to workflow execution time
 
@@ -4642,6 +5805,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that workflow level time limit is not applied to workflow execution time""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.timelimit
+    @pytest.mark.inline_javascript
+    @pytest.mark.red
     def test_conformance_v1_1_timelimit_zero_unlimited_wf(self):
         """Test zero timelimit means no limit in workflow
 
@@ -4660,6 +5829,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test zero timelimit means no limit in workflow""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.workflow
+    @pytest.mark.timelimit
+    @pytest.mark.inline_javascript
+    @pytest.mark.green
     def test_conformance_v1_1_timelimit_from_expression_wf(self):
         """Test expression in time limit in workflow
 
@@ -4677,6 +5852,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test expression in time limit in workflow""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.networkaccess
+    @pytest.mark.red
     def test_conformance_v1_1_networkaccess(self):
         """Test networkaccess enabled
 
@@ -4693,6 +5873,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test networkaccess enabled""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.networkaccess
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_networkaccess_disabled(self):
         """Test networkaccess is disabled by default
 
@@ -4704,10 +5889,16 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             should_fail: true
             tags:
             - networkaccess
+            - command_line_tool
             tool: tests/networkaccess2.cwl
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test networkaccess is disabled by default""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.resource
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_stage_null_array(self):
         """Test null and array input in InitialWorkDirRequirement
 
@@ -4730,6 +5921,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test null and array input in InitialWorkDirRequirement""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.resource
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_stage_array_dirs(self):
         """Test array of directories InitialWorkDirRequirement
 
@@ -4755,6 +5951,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test array of directories InitialWorkDirRequirement""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.input_object_requirements
+    @pytest.mark.red
     def test_conformance_v1_1_cwl_requirements_addition(self):
         """Test requirements in input document via EnvVarRequirement
 
@@ -4776,6 +5977,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test requirements in input document via EnvVarRequirement""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.input_object_requirements
+    @pytest.mark.red
     def test_conformance_v1_1_cwl_requirements_override_expression(self):
         """Test conflicting requirements in input document via EnvVarRequirement and expression
 
@@ -4797,6 +6003,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test conflicting requirements in input document via EnvVarRequirement and expression""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.input_object_requirements
+    @pytest.mark.red
     def test_conformance_v1_1_cwl_requirements_override_static(self):
         """Test conflicting requirements in input document via EnvVarRequirement
 
@@ -4818,6 +6029,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test conflicting requirements in input document via EnvVarRequirement""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.initial_work_dir
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_initial_work_dir_output(self):
         """Test output of InitialWorkDir
 
@@ -4839,10 +6055,16 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
                 size: 12010
             tags:
             - initial_work_dir
+            - command_line_tool
             tool: tests/initialworkdir-glob-fullpath.cwl
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test output of InitialWorkDir""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.initial_work_dir
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_glob_full_path(self):
         """Test if full paths are allowed in glob
 
@@ -4864,10 +6086,16 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
                 size: 12010
             tags:
             - initial_work_dir
+            - command_line_tool
             tool: tests/initialworkdir-glob-fullpath.cwl
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test if full paths are allowed in glob""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_fail_glob_outside_output_dir(self):
         """Test fail trying to glob outside output directory
 
@@ -4879,10 +6107,15 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
             should_fail: true
             tags:
             - required
+            - command_line_tool
             tool: tests/glob-path-error.cwl
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test fail trying to glob outside output directory""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_symlink_to_file_out_of_workdir_illegal(self):
         """symlink to file outside of working directory should NOT be retrieved
 
@@ -4898,10 +6131,16 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
                 class: File
                 size: 27
             should_fail: true
+            tags:
+            - command_line_tool
             tool: tests/symlink-illegal.cwl
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """symlink to file outside of working directory should NOT be retrieved""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_symlink_to_file_in_workdir_legal(self):
         """symlink to file inside of working directory should be retrieved
 
@@ -4916,10 +6155,17 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
                 checksum: sha1$cd28ec34f3f9425aca544b6332453708e8aaa82a
                 class: File
                 size: 27
+            tags:
+            - command_line_tool
             tool: tests/symlink-legal.cwl
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """symlink to file inside of working directory should be retrieved""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inplace_update
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_inplace_update_on_file_content(self):
         """inplace update has side effect on file content
 
@@ -4933,10 +6179,16 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
               b: 4
             tags:
             - inplace_update
+            - workflow
             tool: tests/inp_update_wf.cwl
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """inplace update has side effect on file content""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.inplace_update
+    @pytest.mark.workflow
+    @pytest.mark.red
     def test_conformance_v1_1_inplace_update_on_dir_content(self):
         """inplace update has side effect on directory content
 
@@ -4956,10 +6208,16 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
                 location: blurb
             tags:
             - inplace_update
+            - workflow
             tool: tests/inpdir_update_wf.cwl
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """inplace update has side effect on directory content""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_outputbinding_glob_directory(self):
         """Test that OutputBinding.glob accepts Directories
 
@@ -4986,6 +6244,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that OutputBinding.glob accepts Directories""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_stage_file_array_to_dir(self):
         """Test that array of input files can be staged to directory with entryname
 
@@ -5019,6 +6282,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that array of input files can be staged to directory with entryname""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_stage_file_array_to_dir_basename(self):
         """Test that array of input files can be staged to directory with basename
 
@@ -5052,6 +6320,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that array of input files can be staged to directory with basename""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_stage_file_array_to_dir_basename_entryname(self):
         """Test that if array of input files are staged to directory with basename and entryname, entryname overrides
 
@@ -5085,6 +6358,10 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that if array of input files are staged to directory with basename and entryname, entryname overrides""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_tmpdir_is_not_outdir(self):
         """Test that runtime.tmpdir is not runtime.outdir
 
@@ -5104,6 +6381,10 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that runtime.tmpdir is not runtime.outdir""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_listing_default_none(self):
         """Test that default behavior is 'no_listing' if not specified
 
@@ -5120,6 +6401,10 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that default behavior is 'no_listing' if not specified""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_listing_requirement_none(self):
         """Test that 'listing' is not present when LoadListingRequirement is 'no_listing'
 
@@ -5136,6 +6421,10 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that 'listing' is not present when LoadListingRequirement is 'no_listing'""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_listing_loadListing_none(self):
         """Test that 'listing' is not present when loadListing on input parameter is 'no_listing'
 
@@ -5152,6 +6441,10 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that 'listing' is not present when loadListing on input parameter is 'no_listing'""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_listing_requirement_shallow(self):
         """Test that 'listing' is present in top directory object but not subdirectory object when LoadListingRequirement is 'shallow_listing'
 
@@ -5170,6 +6463,10 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that 'listing' is present in top directory object but not subdirectory object when LoadListingRequirement is 'shallow_listing'
 """)
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_listing_loadListing_shallow(self):
         """Test that 'listing' is present in top directory object but not subdirectory object when loadListing on input parameter loadListing is 'shallow_listing'
 
@@ -5188,6 +6485,10 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that 'listing' is present in top directory object but not subdirectory object when loadListing on input parameter loadListing is 'shallow_listing'
 """)
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_listing_requirement_deep(self):
         """Test that 'listing' is present in top directory object and in subdirectory objects when LoadListingRequirement is 'deep_listing'
 
@@ -5206,6 +6507,10 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that 'listing' is present in top directory object and in subdirectory objects when LoadListingRequirement is 'deep_listing'
 """)
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_listing_loadListing_deep(self):
         """Test that 'listing' is present in top directory object and in subdirectory objects when input parameter loadListing is 'deep_listing'
 
@@ -5224,6 +6529,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         self.cwl_populator.run_conformance_test("""v1.1""", """Test that 'listing' is present in top directory object and in subdirectory objects when input parameter loadListing is 'deep_listing'
 """)
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.required
+    @pytest.mark.green
     def test_conformance_v1_1_inputBinding_position_expr(self):
         """Test for expression in the InputBinding.position field; also test using emoji in CWL document and tool output
 
@@ -5243,6 +6553,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         self.cwl_populator.run_conformance_test("""v1.1""", """Test for expression in the InputBinding.position field; also test using emoji in CWL document and tool output
 """)
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.command_line_tool
+    @pytest.mark.required
+    @pytest.mark.red
     def test_conformance_v1_1_outputEval_exitCode(self):
         """Can access exit code in outputEval
 
@@ -5260,6 +6575,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Can access exit code in outputEval""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_any_input_param_graph_no_default(self):
         """Test use of $graph without specifying which process to run
 
@@ -5279,6 +6599,11 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         """  # noqa: W293
         self.cwl_populator.run_conformance_test("""v1.1""", """Test use of $graph without specifying which process to run""")
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.command_line_tool
+    @pytest.mark.red
     def test_conformance_v1_1_any_input_param_graph_no_default_hashmain(self):
         """Test use of $graph without specifying which process to run, hash-prefixed "main"
 
@@ -5300,6 +6625,12 @@ class CwlConformanceTestCase(BaseCwlWorklfowTestCase):
         self.cwl_populator.run_conformance_test("""v1.1""", """Test use of $graph without specifying which process to run, hash-prefixed "main"
 """)
 
+    @pytest.mark.cwl_conformance
+    @pytest.mark.cwl_conformance_v1_1
+    @pytest.mark.required
+    @pytest.mark.inline_javascript
+    @pytest.mark.command_line_tool
+    @pytest.mark.green
     def test_conformance_v1_1_optional_numerical_output_returns_0_not_null(self):
         """Test that optional number output is returned as 0, not null
 
